@@ -1,0 +1,3 @@
+[2021-03-26 08:40:54.889] [exthost] [info] extension host started
+[2021-03-26 08:46:10.105] [exthost] [info] extension host terminating: renderer disconnected for too long (2)
+[2021-03-26 08:46:11.107] [exthost] [info] exiting with code 0

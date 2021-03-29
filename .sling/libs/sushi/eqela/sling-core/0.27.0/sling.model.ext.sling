@@ -1,0 +1,375 @@
+class name sling.model.ext.NSlingWebApiRequestHandlerObjectDeclaration header extends sling.common.NodeObject public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setExpression(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getExpression as sling.model.ExpressionNode
+	func exportExpression as sling.model.ExpressionNode
+	func setPath(v as string)
+	func getPath as string
+}
+class name sling.model.ext.NSlingWebApiRequestHandlerFunctionDeclaration header extends sling.model.FunctionDeclarationBaseNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setMethod(v as string)
+	func getMethod as string
+	func setPath(v as string)
+	func getPath as string
+}
+class name sling.model.ext.NSlingWebApiInQueryParameterStatement header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setType(v as sling.common.DataTypeNode, doExport as bool = false)
+	func getType as sling.common.DataTypeNode
+	func exportType as sling.common.DataTypeNode
+	func setName(v as string)
+	func getName as string
+	func setOptional(v as bool)
+	func getOptional as bool
+	func setDescription(v as string)
+	func getDescription as string
+}
+class name sling.model.ext.NSlingWebApiSampleResponse header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setTitle(v as string)
+	func getTitle as string
+	func setContent(v as string)
+	func getContent as string
+}
+class name sling.model.ext.NSlingWebApiInPathStatement header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setType(v as sling.common.DataTypeNode, doExport as bool = false)
+	func getType as sling.common.DataTypeNode
+	func exportType as sling.common.DataTypeNode
+	func setName(v as string)
+	func getName as string
+	func setDescription(v as string)
+	func getDescription as string
+}
+class name sling.model.ext.NSlingWebApiOutErrorStatement header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setCode(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getCode as sling.model.ExpressionNode
+	func exportCode as sling.model.ExpressionNode
+	func setData(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getData as sling.model.ExpressionNode
+	func exportData as sling.model.ExpressionNode
+}
+class name sling.model.ext.NSlingUnitSettings header extends sling.common.CodeUnitSettingsNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setIsMainUnit(v as bool)
+	func getIsMainUnit as bool
+	func setVendorId(v as string)
+	func getVendorId as string
+	func setProjectVersion(v as string)
+	func getProjectVersion as string
+	func setProjectId(v as string)
+	func getProjectId as string
+	func setProjectTitle(v as string)
+	func getProjectTitle as string
+	func setProjectDescription(v as string)
+	func getProjectDescription as string
+	func setProjectCopyright(v as string)
+	func getProjectCopyright as string
+	func setProjectLicense(v as string)
+	func getProjectLicense as string
+	func setModuleId(v as string)
+	func getModuleId as string
+	func setModuleTitle(v as string)
+	func getModuleTitle as string
+	func setModuleDescription(v as string)
+	func getModuleDescription as string
+	func setUseJkop(v as bool)
+	func getUseJkop as bool
+	func setDefines(v as jk.lang.DynamicMap)
+	func getDefines as jk.lang.DynamicMap
+	func setIgnoreModuleIdInNamespace(v as bool)
+	func getIgnoreModuleIdInNamespace as bool
+	func setAndroidProjectId(v as string)
+	func getAndroidProjectId as string
+	func setAndroidVersion(v as string)
+	func getAndroidVersion as string
+	func setAndroidPackageName(v as string)
+	func getAndroidPackageName as string
+	func setAndroidMinSdkVersion(v as int)
+	func getAndroidMinSdkVersion as int
+	func setAndroidTargetSdkVersion(v as int)
+	func getAndroidTargetSdkVersion as int
+	func setAndroidToolsVersion(v as string)
+	func getAndroidToolsVersion as string
+	func setAndroidGradlePluginVersion(v as string)
+	func getAndroidGradlePluginVersion as string
+	func setAndroidKotlinVersion(v as string)
+	func getAndroidKotlinVersion as string
+	func setAndroidEnableAndroidJackForLibraries(v as bool)
+	func getAndroidEnableAndroidJackForLibraries as bool
+	func setAndroidKeyStore(v as string)
+	func getAndroidKeyStore as string
+	func setAndroidKeyStorePassword(v as string)
+	func getAndroidKeyStorePassword as string
+	func setAndroidKeyAlias(v as string)
+	func getAndroidKeyAlias as string
+	func setAndroidKeyAliasPassword(v as string)
+	func getAndroidKeyAliasPassword as string
+	func setAndroidGoogleServicesVersion(v as string)
+	func getAndroidGoogleServicesVersion as string
+	func setAndroidMetaData(v as jk.lang.DynamicMap)
+	func getAndroidMetaData as jk.lang.DynamicMap
+	func setAndroidGradleHeap(v as string)
+	func getAndroidGradleHeap as string
+	func setIosProjectName(v as string)
+	func getIosProjectName as string
+	func setIosVersion(v as string)
+	func getIosVersion as string
+	func setIosDisplayName(v as string)
+	func getIosDisplayName as string
+	func setIosCflags(v as string)
+	func getIosCflags as string
+	func setIosLinkMethod(v as string)
+	func getIosLinkMethod as string
+	func setIosDeploymentTarget(v as string)
+	func getIosDeploymentTarget as string
+	func setIosResultType(v as string)
+	func getIosResultType as string
+	func setIosScreenOrientation(v as string)
+	func getIosScreenOrientation as string
+	func setMavenArtifactId(v as string)
+	func getMavenArtifactId as string
+	func setMavenGroupId(v as string)
+	func getMavenGroupId as string
+	func setMavenVersion(v as string)
+	func getMavenVersion as string
+	func setMavenName(v as string)
+	func getMavenName as string
+	func setNpmPackageJson(v as jk.lang.DynamicMap)
+	func getNpmPackageJson as jk.lang.DynamicMap
+	func setNpmAngularJson(v as jk.lang.DynamicMap)
+	func getNpmAngularJson as jk.lang.DynamicMap
+	func setNpmTsconfigJson(v as jk.lang.DynamicMap)
+	func getNpmTsconfigJson as jk.lang.DynamicMap
+	func setNpmTslintJson(v as jk.lang.DynamicMap)
+	func getNpmTslintJson as jk.lang.DynamicMap
+	func setImports(v as vector)
+	func getImports as vector
+	func addToImports(v as string)
+	func clearImports
+	func setResources(v as vector, doExport as bool = false)
+	func getResources as vector
+	func exportResources as vector
+	func addToResources(v as sling.model.ResourceFileNode)
+	func clearResources
+	func setLibraries(v as vector)
+	func getLibraries as vector
+	func addToLibraries(v as string)
+	func clearLibraries
+	func setAndroidManifestCustomXmls(v as vector)
+	func getAndroidManifestCustomXmls as vector
+	func addToAndroidManifestCustomXmls(v as string)
+	func clearAndroidManifestCustomXmls
+	func setAndroidManifestApplicationCustomXmls(v as vector)
+	func getAndroidManifestApplicationCustomXmls as vector
+	func addToAndroidManifestApplicationCustomXmls(v as string)
+	func clearAndroidManifestApplicationCustomXmls
+	func setAndroidPermissions(v as vector)
+	func getAndroidPermissions as vector
+	func addToAndroidPermissions(v as string)
+	func clearAndroidPermissions
+	func setAndroidFeatures(v as vector)
+	func getAndroidFeatures as vector
+	func addToAndroidFeatures(v as string)
+	func clearAndroidFeatures
+	func setAndroidGradleDepends(v as vector)
+	func getAndroidGradleDepends as vector
+	func addToAndroidGradleDepends(v as string)
+	func clearAndroidGradleDepends
+	func setIosPods(v as vector)
+	func getIosPods as vector
+	func addToIosPods(v as string)
+	func clearIosPods
+	func setIosFrameworks(v as vector)
+	func getIosFrameworks as vector
+	func addToIosFrameworks(v as string)
+	func clearIosFrameworks
+	func setIosLinkLibs(v as vector)
+	func getIosLinkLibs as vector
+	func addToIosLinkLibs(v as string)
+	func clearIosLinkLibs
+	func setIosLdFlags(v as vector)
+	func getIosLdFlags as vector
+	func addToIosLdFlags(v as string)
+	func clearIosLdFlags
+	func setIosPlists(v as vector)
+	func getIosPlists as vector
+	func addToIosPlists(v as string)
+	func clearIosPlists
+	func setIosInfoPlistData(v as vector)
+	func getIosInfoPlistData as vector
+	func addToIosInfoPlistData(v as string)
+	func clearIosInfoPlistData
+}
+class name sling.model.ext.NSlingWebApiSampleRequest header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setTitle(v as string)
+	func getTitle as string
+	func setContent(v as string)
+	func getContent as string
+}
+class name sling.model.ext.NSlingWebApiOutOkStatement header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setData(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getData as sling.model.ExpressionNode
+	func exportData as sling.model.ExpressionNode
+}
+class name sling.model.ext.NSlingWebApiStatement header extends sling.common.NodeObject public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.model.ext.NSlingWebApiOutObjectStatement header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setData(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getData as sling.model.ExpressionNode
+	func exportData as sling.model.ExpressionNode
+}
+class name sling.model.ext.NSlingWebApiInSessionStatement header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setType(v as sling.common.DataTypeNode, doExport as bool = false)
+	func getType as sling.common.DataTypeNode
+	func exportType as sling.common.DataTypeNode
+	func setName(v as string)
+	func getName as string
+}
+class name sling.model.ext.NSlingWebApiInPostStatement header extends sling.model.ext.NSlingWebApiStatement public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setType(v as sling.common.DataTypeNode, doExport as bool = false)
+	func getType as sling.common.DataTypeNode
+	func exportType as sling.common.DataTypeNode
+	func setName(v as string)
+	func getName as string
+	func setDescription(v as string)
+	func getDescription as string
+}

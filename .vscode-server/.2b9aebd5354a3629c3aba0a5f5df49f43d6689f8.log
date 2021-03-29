@@ -1,0 +1,45 @@
+
+
+*
+* Visual Studio Code Server
+*
+* Reminder: You may only use this software with Visual Studio family products,
+* as described in the license https://aka.ms/vscode-remote/license
+*
+
+Extension host agent listening on 38619
+
+[10:12:37] Extension host agent started.
+[10:12:38] [127.0.0.1][4daea623][ManagementConnection] New connection established.
+[10:12:40] [127.0.0.1][c01ff104][ExtensionHostConnection] New connection established.
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+[10:12:40] [127.0.0.1][c01ff104][ExtensionHostConnection] <644752> Launched Extension Host Process.
+[10:13:04] [127.0.0.1][4daea623][ManagementConnection] The client has reconnected.
+[10:14:38] [127.0.0.1][4daea623][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+[10:15:05] [127.0.0.1][2ffc4bf4][ManagementConnection] New connection established.
+[10:15:05] [127.0.0.1][435e744a][ExtensionHostConnection] New connection established.
+[10:15:05] [127.0.0.1][435e744a][ExtensionHostConnection] <647602> Launched Extension Host Process.
+[10:15:06] Terminal layout retrieved: [1]
+[10:15:06] Replaying 268 chars and 2 size events.
+[10:15:33] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[10:15:44] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[10:16:07] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[10:20:05] [127.0.0.1][c01ff104][ExtensionHostConnection] <644752> Extension Host Process exited with code: 0, signal: null.
+[10:23:43] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[10:23:50] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[10:33:51] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[10:45:51] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[10:45:53] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[10:51:31] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[11:09:13] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[11:09:19] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[11:15:30] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[11:22:36] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[11:24:32] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[11:25:02] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[11:33:15] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[11:33:15] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[11:36:14] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[11:36:17] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[11:38:00] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.

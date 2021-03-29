@@ -1,0 +1,268 @@
+class name sling.util.SymbolUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func mergeSymbols(s1 as sling.model.SymbolNode, s2 as sling.model.SymbolNode) static as sling.model.SymbolNode
+	func tryGetSymbolBindingForExpression(xpr as sling.model.SymbolExpressionNode) static as sling.common.NodeObject
+	func tryGetSymbolBinding(sym as sling.model.SymbolNode) static as sling.common.NodeObject
+	func getQualifiedSymbolNameComponents(node as sling.common.NodeObject, typeParameters as vector) static as vector
+	func generateSymbolComponentsForBinding(symbol as sling.model.SymbolNode, binding as sling.common.NodeObject) as vector
+	func getSymbolComponents(symbol as sling.model.SymbolNode) static as vector
+	func getSymbolNames(symbol as sling.model.SymbolNode) static as vector<string>
+	func getSymbolNamesString(symbol as sling.model.SymbolNode, delim as char = '.') static as string
+	func getSymbolName(symbol as sling.model.SymbolNode) static as string
+	func getFirstComponent(symbol as sling.model.SymbolNode) static as string
+	func setFirstComponent(symbol as sling.model.SymbolNode, component as sling.model.SymbolNameComponentNode) static
+	func setName(symbol as sling.model.SymbolNode, name as string) static
+	func setNames(symbol as sling.model.SymbolNode, names as vector) static
+	func addObjectToComponents(symbol as sling.model.SymbolNode, name as object) static
+	func pushComponent(symbol as sling.model.SymbolNode, comp as sling.model.SymbolNameComponentNode) static
+	func pushName(symbol as sling.model.SymbolNode, name as string) static
+	func unbind(symbol as sling.model.SymbolNode) static
+	func expressionToSymbolNames(xpr as sling.model.ExpressionNode) static as vector<string>
+}
+class name sling.util.ExpressionUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func dupAsExpression(node as sling.common.NodeObject) static as sling.model.ExpressionNode
+	func tryGetExpressionDataType(xpr as sling.model.ExpressionNode, resolver as sling.util.TypeResolver = null) static as sling.common.DataTypeNode
+	func getExpressionDataType(xpr as sling.model.ExpressionNode, resolver as sling.util.TypeResolver = null) static as sling.common.DataTypeNode
+}
+class name sling.util.EntityUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getBaseClassTypeForEntity(entity as sling.model.EntityDeclarationNode) as sling.model.ReferenceDataTypeNode
+	func methodExists(entity as sling.model.EntityDeclarationNode, name as string) static as bool
+	func doesEntityImportNamespace(entity as sling.model.EntityDeclarationNode, nsname as string) static as bool
+	func addToImportNamespacesUnique(entity as sling.model.EntityDeclarationNode, symbol as sling.model.SymbolNode) static
+	func addImportToEntity(entity as sling.model.EntityDeclarationNode, importStatement as sling.model.ImportStatementNode) static
+}
+class name sling.util.NodeFinder header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func findNodesOfType(node as sling.common.NodeObject, type as typeinfo, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject>
+	func findNodesOfTypes(node as sling.common.NodeObject, types as array<typeinfo>, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject>
+	func findCompatibleNodes(node as sling.common.NodeObject, type as typeinfo, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject>
+	func findCompatibleNodesForTypes(node as sling.common.NodeObject, types as array<typeinfo>, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject>
+	func visitAllNodes(node as sling.common.NodeObject, visitor as function<void,sling.common.NodeObject>) static
+}
+class name sling.util.ProjectUtil header public
+{
+	import jk.fs
+	import jk.log
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func findResourcesForTree(node as sling.common.NodeObject) static as vector<sling.model.ResourceFileNode>
+	func copyTreeResourcesToDirectory(ctx as jk.log.LoggingContext, tree as sling.common.NodeObject, outputDirectory as jk.fs.File) static
+}
+class name sling.util.ModifierUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func removeModifiers(node as sling.common.NodeObject) static
+	func removeCommonModifier(node as sling.common.NodeObject, mod as string) static as bool
+	func removeAnnotationModifier(node as sling.common.NodeObject, mod as string) static as bool
+	func addCommonModifier(node as sling.model.NodeWithModifiers, mod as string) static
+	func addAnnotationModifier(node as sling.model.NodeWithModifiers, mod as string) static
+	func addModifierNode(node as sling.model.NodeWithModifiers, mod as sling.common.NodeObject) static
+	func addModifierNodes(node as sling.model.NodeWithModifiers, mods as vector) static
+	func setModifierNodes(node as sling.model.NodeWithModifiers, mods as vector) static
+	func getCommonModifiers(node as sling.model.NodeWithModifiers) static as vector<string>
+	func getAnnotationModifiers(node as sling.model.NodeWithModifiers) static as vector<string>
+	func getModifierNodes(node as sling.model.NodeWithModifiers) as vector
+	func exportModifierNodes(node as sling.model.NodeWithModifiers) as vector
+	func hasCommonModifier(node as sling.common.NodeObject, name as string) static as bool
+	func hasAnnotationModifier(node as sling.common.NodeObject, name as string) static as bool
+	func copyModifiers(from as sling.common.NodeObject, to as sling.model.NodeWithModifiers) static
+}
+class name sling.util.PropertyUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getGetFunction(property as sling.model.PropertyDeclarationNode) static as sling.model.PropertyGetFunctionDeclarationNode
+	func getSetFunction(property as sling.model.PropertyDeclarationNode) static as sling.model.PropertySetFunctionDeclarationNode
+	func getWillSetFunction(property as sling.model.PropertyDeclarationNode) static as sling.model.PropertyWillSetFunctionDeclarationNode
+	func getDidSetFunction(property as sling.model.PropertyDeclarationNode) static as sling.model.PropertyDidSetFunctionDeclarationNode
+	func getInitializeFunction(property as sling.model.PropertyDeclarationNode) static as sling.model.PropertyInitializeFunctionDeclarationNode
+	func getBodyNodes(property as sling.model.PropertyDeclarationNode) as vector
+}
+class name sling.util.FindUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func findRootNamespace(node as sling.common.NodeObject) static as sling.model.NamespaceNode
+	func findNearestNamespace(node as sling.common.NodeObject) static as sling.model.NamespaceNode
+	func findNearestCodeFile(node as sling.common.NodeObject) static as sling.common.CodeFileNode
+	func findNearestCodeUnit(node as sling.common.NodeObject) static as sling.common.CodeUnitNode
+	func findNearestClass(node as sling.common.NodeObject) static as sling.model.ClassDeclarationNode
+	func findNearestEntity(node as sling.common.NodeObject) static as sling.model.EntityDeclarationNode
+	func findNearestFunctionBase(node as sling.common.NodeObject) static as sling.model.FunctionDeclarationBaseNode
+	func findNearestLoop(node as sling.common.NodeObject) static as sling.model.LoopStatementNode
+	func findNearestFunction(node as sling.common.NodeObject) static as sling.model.FunctionDeclarationNode
+	func findNearestBlock(node as sling.common.NodeObject) static as sling.model.BlockNode
+	func findTopmostEntity(node as sling.common.NodeObject) static as sling.model.EntityDeclarationNode
+	func findNodesOfType(node as sling.common.NodeObject, type as typeinfo, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject> #deprecated
+	func findNodesOfTypes(node as sling.common.NodeObject, types as array<typeinfo>, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject> #deprecated
+	func findCompatibleNodes(node as sling.common.NodeObject, type as typeinfo, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject> #deprecated
+	func findCompatibleNodesForTypes(node as sling.common.NodeObject, types as array<typeinfo>, reverse as bool = false, ignoreMacros as bool = true, ignoreHeaders as bool = false) static as vector<sling.common.NodeObject> #deprecated
+	func visitAllNodes(node as sling.common.NodeObject, visitor as function<void,sling.common.NodeObject>) static #deprecated
+	func findNodesWithAnyModifier(node as sling.common.NodeObject, mods as array<string>) static as vector<sling.common.NodeObject>
+	func findNodesWithAllModifiers(node as sling.common.NodeObject, mods as array<string>) static as vector<sling.common.NodeObject>
+	func findEntityByName(root as sling.common.NodeObject, name as string) as sling.model.EntityDeclarationNode
+}
+class name sling.util.ResolveResult header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func forNode(node as sling.common.NodeObject) static as sling.util.ResolveResult
+	func getNode as sling.common.NodeObject #getterMethod
+	func setNode(v as sling.common.NodeObject) as sling.util.ResolveResult #setterMethod
+	func getTypemap as sling.model.TypeMap #getterMethod
+	func setTypemap(v as sling.model.TypeMap) as sling.util.ResolveResult #setterMethod
+	func getTypeParameters as vector #getterMethod
+	func setTypeParameters(v as vector) as sling.util.ResolveResult #setterMethod
+}
+class name sling.util.FunctionUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func prependStatement(fd as sling.model.FunctionDeclarationBaseNode, stmt as sling.common.NodeObject) static
+	func addStatement(fd as sling.model.FunctionDeclarationBaseNode, stmt as sling.common.NodeObject) static
+	func createBaseCallForFunction(fd as sling.model.FunctionDeclarationBaseNode) static as sling.model.ExpressionNode
+	func hasBaseCall(fd as sling.model.FunctionDeclarationBaseNode) static as bool
+	func addBaseCall(fd as sling.model.FunctionDeclarationBaseNode, force as bool = false) static
+	func findUniqueVariableNameInFunction(function as sling.model.FunctionDeclarationBaseNode, name as string) static as string
+	func findUniqueVariableNameInContainer(container as sling.common.ContainerNode, name as string) static as string
+	func findUniqueVariableNameForNode(node as sling.common.NodeObject, name as string) static as string
+	func addBaseClassCallParameters(resolver as sling.util.TypeResolver, decl as sling.model.ConstructorDeclarationNode, force as bool = false, findExact as bool = false) static
+	func copySignatureTo(from as sling.model.FunctionDeclarationBaseNode, to as sling.model.FunctionDeclarationBaseNode) static
+	func isFunctionCallExpressionChild(node as sling.common.NodeObject) static as bool
+	func getFunctionNameForExpression(xpr as sling.model.ExpressionNode) static as string
+	func getResolvedDeclarationForExpression(xpr as sling.model.ExpressionNode) static as sling.model.FunctionDeclarationNode
+	func getResolvedDeclaration(fc as sling.model.FunctionCallExpressionNode) static as sling.model.FunctionDeclarationNode
+	class name DeclarationWithTypemap header public static
+	{
+		ctor
+		func getDeclaration as sling.model.FunctionDeclarationNode #getterMethod
+		func setDeclaration(v as sling.model.FunctionDeclarationNode) as sling.util.FunctionUtil.DeclarationWithTypemap #setterMethod
+		func getTypemap as sling.model.TypeMap #getterMethod
+		func setTypemap(v as sling.model.TypeMap) as sling.util.FunctionUtil.DeclarationWithTypemap #setterMethod
+	}
+	func getResolvedDeclarationForExpressionWithTypemap(xpr as sling.model.ExpressionNode) static as sling.util.FunctionUtil.DeclarationWithTypemap
+	func getResolvedDeclarationWithTypemap(fc as sling.model.FunctionCallExpressionNode) static as sling.util.FunctionUtil.DeclarationWithTypemap
+}
+class name sling.util.NodeUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getQualifiedNameComponents(node as sling.common.NodeObject, skipCodeFile as bool = true) static as vector
+	func getParent(node as sling.common.NodeObject) static as sling.common.NodeObject
+	func getQualifiedNameString(node as sling.common.NodeObject, delim as char = '.') static as string
+	func dupAsNode(node as sling.common.NodeObject) static as sling.common.NodeObject
+	func dupAsVariableDeclaration(node as sling.common.NodeObject) static as sling.model.VariableDeclarationNode
+	func dupBlock(node as sling.model.BlockNode) static as sling.model.BlockNode
+	func exportNode(node as sling.common.NodeObject) static
+	func exportLeftAsVariableDeclaration(node as sling.common.NodeObject) static as sling.model.VariableDeclarationNode
+	func removeNode(node as sling.common.NodeObject) static
+	func replaceNode(node as sling.common.NodeObject, newnode as sling.common.NodeObject) static
+	func replaceAndExport(node as sling.common.NodeObject, newnode as sling.common.NodeObject) static
+	func isStatic(node as sling.common.NodeObject) static as bool
+	func insertAboveNode(existingnode as sling.common.NodeObject, newnode as sling.common.NodeObject)
+	func replaceWithNodes(original as sling.common.NodeObject, replace as vector<sling.common.NodeObject>) static
+	func addChild(parent as sling.common.NodeObject, child as sling.common.NodeObject) static
+	func getOrCreateNamespaceForArray(parent as sling.model.NamespaceNode, names as array<string>) static as sling.model.NamespaceNode
+	func getOrCreateNamespace(parent as sling.model.NamespaceNode, childName as string) static as sling.model.NamespaceNode
+	func describeNode(node as sling.common.NodeObject) static as string
+	func dumpTree(ctx as jk.log.LoggingContext, tree as sling.common.NodeObject) static
+	func getVisibilityModifier(node as sling.common.NodeObject) static as string
+	func hasVisibilityModifier(node as sling.common.NodeObject) static as bool
+}
+class name sling.util.TypeResolver header abstract public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func resolveName(context as sling.common.NodeObject, name as string) abstract as sling.util.ResolveResult
+	func resolveNames(context as sling.common.NodeObject, names as vector<string>) abstract as sling.util.ResolveResult
+	func tryResolveNames(context as sling.common.NodeObject, names as vector<string>) abstract as sling.util.ResolveResult
+	func resolveExpression(xpr as sling.model.ExpressionNode) abstract
+	func resolveDataType(rdt as sling.common.DataTypeNode) abstract
+	func execute(node as sling.common.NodeObject) abstract
+	func getMatchingConstructor(entity as sling.model.EntityDeclarationNode, parameters as vector, typemap as sling.model.TypeMap) abstract as sling.model.ConstructorDeclarationNode
+	func findImplementedInterfaceMethod(fdecl as sling.model.FunctionDeclarationNode) abstract as sling.model.FunctionDeclarationNode
+	func isSame(primary as sling.common.DataTypeNode, other as sling.common.DataTypeNode, typemap as sling.model.TypeMap) abstract as bool
+	func resolveFunctionSignature(decl as sling.model.FunctionDeclarationBaseNode, tr as sling.util.TypeResolver) virtual
+	func resolveExpressions(node as sling.common.NodeObject)
+	func getBaseClass(entity as sling.model.EntityDeclarationNode) virtual as sling.model.ClassDeclarationNode
+	func getBaseClassType(entity as sling.model.EntityDeclarationNode) virtual as sling.model.ReferenceDataTypeNode
+	func getRealInheritType(basetype as sling.model.BaseTypeNode) as int
+	func getAllGenericTypes(entity as sling.model.EntityDeclarationNode) as vector
+	func getActualType(node as sling.common.DataTypeNode) as sling.common.DataTypeNode
+	func getBoundNode(dt as sling.common.DataTypeNode) as sling.common.NodeObject
+	func getAndRequireBoundNode(dt as sling.common.DataTypeNode) as sling.common.NodeObject
+	func getBoundContainer(dt as sling.common.DataTypeNode) as sling.common.ContainerNode
+	func getAndRequireBoundContainer(dt as sling.common.DataTypeNode) static as sling.common.ContainerNode
+	func getBoundEntity(dt as sling.common.DataTypeNode) as sling.model.EntityDeclarationNode
+	func getAndRequireBoundEntity(dt as sling.common.DataTypeNode) static as sling.model.EntityDeclarationNode
+	func getBoundClass(dt as sling.common.DataTypeNode) as sling.model.ClassDeclarationNode
+	func getAndRequireBoundClass(dt as sling.common.DataTypeNode) static as sling.model.ClassDeclarationNode
+	func getBoundInterface(dt as sling.common.DataTypeNode) as sling.model.InterfaceDeclarationNode
+	func getAndRequireBoundInterface(dt as sling.common.DataTypeNode) as sling.model.InterfaceDeclarationNode
+	func getImplementedInterfaceReference(entity as sling.model.EntityDeclarationNode, inames as array<string>) as sling.model.ReferenceDataTypeNode
+	func isBaseTypeOf(original as sling.model.EntityDeclarationNode, candidate as sling.common.NodeObject) as bool
+	func getTypeParametersForNode(node as sling.common.NodeObject) as vector
+	func mapType(dt as sling.common.DataTypeNode, typemap as sling.model.TypeMap) as sling.common.DataTypeNode
+	func getExpectedExpressionDataType(node as sling.model.ExpressionNode) as sling.common.DataTypeNode
+}
+class name sling.util.DataTypeUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func dupAsReferenceDataType(node as sling.common.NodeObject) static as sling.model.ReferenceDataTypeNode
+	func dupAsDataType(node as sling.common.NodeObject) static as sling.common.DataTypeNode
+	func getSymbolName(dt as sling.common.DataTypeNode) static as string
+	func isReferenceValid(dt as sling.model.ReferenceDataTypeNode) static as bool
+	func createDefaultValue(type as sling.common.DataTypeNode) static as sling.model.ExpressionNode
+	func getDataTypeName(node as sling.common.DataTypeNode) static as string
+}

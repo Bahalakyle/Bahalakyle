@@ -1,0 +1,111 @@
+class name sling.tools.compiler.SlingCompilerTask header extends sling.steps.SlingStepsTask public
+{
+	import jk.fs
+	import jk.log
+	import jk.env
+	import jk.sushi
+	import sling.steps
+	import jk.lang
+	ctor
+	property interpreterName as string { hasset hasget }
+	property slingScriptVersion as string { hasset hasget }
+	property outputDirectory as jk.fs.File { hasset hasget }
+	property useCloudBuild as bool { hasset hasget }
+	property compilerUses as jk.lang.DynamicMap { hasset hasget }
+	property source as dynamic { hasset hasget }
+	property targetPlatform as string { hasset hasget }
+	property buildType as string { hasset hasget }
+	property buildVersion as string { hasset hasget }
+	property libraryVersions as jk.lang.DynamicMap { hasset hasget }
+	property installLibrary as bool { hasset hasget }
+	property executeApplication as bool { hasset hasget }
+	property customLibs as vector<string> { hasset hasget }
+	property forcedLibs as vector<string> { hasset hasget }
+	func executeScript(ctx as jk.log.LoggingContext, code as string)
+	func asSourceFile(source) as jk.fs.File
+	func execute(ctx as jk.log.LoggingContext) override
+}
+class name sling.tools.compiler.SlingWebsiteApplicationBuildTask header extends sling.steps.SlingStepsTask public
+{
+	import jk.fs
+	import jk.log
+	import sling.steps
+	import jk.lang
+	ctor
+	property sourceDirectory as jk.fs.File { hasset hasget }
+	property outputDirectory as jk.fs.File { hasset hasget }
+	property buildVersion as string { hasset hasget }
+	property useCloudBuild as bool { hasset hasget }
+	property compilerUses as jk.lang.DynamicMap { hasset hasget }
+	func execute(ctx as jk.log.LoggingContext) override
+}
+class name sling.tools.compiler.SlingWebsiteCompilerCommand header public
+{
+	import jk.fs
+	import jk.log
+	import jk.console
+	import sling.steps
+	import jk.lang
+	ctor
+	func executeBuildWebsiteCommand(ctx as jk.log.LoggingContext, directory as jk.fs.File, args as jk.console.ArgumentVector) static
+}
+class name sling.tools.compiler.SlingCompilerCommand header public
+{
+	import jk.fs
+	import jk.log
+	import jk.console
+	import sling.steps
+	import jk.lang
+	ctor
+	func executeBuildCommand(ctx as jk.log.LoggingContext, mytasks as sling.steps.SlingStepsTaskList, args as jk.console.ArgumentVector) static
+}
+class name sling.tools.compiler.SlingCompilerTool header extends sling.steps.SlingStepsMain public
+{
+	import jk.fs
+	import jk.console
+	import sling.steps
+	import jk.lang
+	ctor(ctx as jk.log.LoggingContext)
+	ctor
+	func getAllPlatforms static as vector<string>
+	func forCrossPlatformLibraryDirectory static as sling.tools.compiler.SlingCompilerTool
+	func forLibraryDirectoryWithPlatform(platform as string) static as sling.tools.compiler.SlingCompilerTool
+	func forSushiLibraryDirectory static as sling.tools.compiler.SlingCompilerTool
+	func forWebLibraryDirectory static as sling.tools.compiler.SlingCompilerTool
+	func forApplicationDirectoryWithPlatform(mainModule as string, platform as string, options as map<string,string> = null) static as sling.tools.compiler.SlingCompilerTool
+	func forSushiApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forWeb5ApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forWeb6ApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forAndroidJavaApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forAndroidKotlinApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forIosObjcApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forIosSwiftApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forMobileApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+	func forWebsiteDirectory static as sling.tools.compiler.SlingCompilerTool
+	func forDotnetApplicationDirectory(mainModule as string) static as sling.tools.compiler.SlingCompilerTool
+}
+class name sling.tools.compiler.SlingCompilerTaskList header extends sling.steps.SlingStepsTaskList public
+{
+	import sling.steps
+	import jk.lang
+	ctor
+	func forName(name as string) static as sling.tools.compiler.SlingCompilerTaskList
+	func addLibrary(source, platform as string, options as map<string,string> = null) as sling.tools.compiler.SlingCompilerTaskList
+	func addApplication(source, platform as string, options as map<string,string> = null) as sling.tools.compiler.SlingCompilerTaskList
+}
+class name sling.tools.compiler.SlingWebsiteApplicationLinkTask header extends sling.steps.SlingStepsTask public
+{
+	import jk.fs
+	import jk.log
+	import jk.archive
+	import sling.steps
+	import jk.lang
+	ctor
+	property siteName as string { hasset hasget }
+	property outputDirectory as jk.fs.File { hasset hasget }
+	property buildVersion as string { hasset hasget }
+	property serverAppInstaller as jk.fs.File { hasset hasget }
+	property webappFiles as vector<jk.fs.File> { hasset hasget }
+	property wwwrootDirectory as jk.fs.File { hasset hasget }
+	func execute(ctx as jk.log.LoggingContext) override
+}

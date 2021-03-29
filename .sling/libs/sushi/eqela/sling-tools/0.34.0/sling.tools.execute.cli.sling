@@ -1,0 +1,9 @@
+class name sling.tools.execute.cli.SlingExecuteCli header public
+{
+	import jk.fs
+	import jk.console
+	import sling.tools.execute
+	import jk.lang
+	ctor
+	func executeMain(argsa as array<string>) as int
+}

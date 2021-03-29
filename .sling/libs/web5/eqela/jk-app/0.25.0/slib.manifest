@@ -1,0 +1,15 @@
+{
+	"license" : "",
+	"version" : "0.25.0",
+	"title" : "JK App",
+	"libraries" : [
+		"jk-core:0.36.0",
+		"jk-data:0.32.0",
+		"jk-gfx:0.20.0",
+		"jk-net:0.38.0"
+	],
+	"description" : "",
+	"copyright" : "",
+	"name" : "jk-app",
+	"namespace" : "eqela"
+}

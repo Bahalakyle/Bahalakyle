@@ -1,0 +1,77 @@
+class name sling.task.CollectionTask header extends sling.task.SlingTask public
+{
+	import jk.fs
+	import jk.log
+	import jk.lang
+	ctor
+	property tasks as vector<sling.task.SlingTask> { hasset hasget }
+	func addToTasks(task as sling.task.SlingTask)
+	func execute override
+}
+class name sling.task.CodeFileTask header extends sling.task.FileTask abstract public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import jk.lang
+	ctor
+	func addToProviders(provider as sling.common.LanguageProvider)
+	func getImportProviderForFile(file as jk.fs.File) as sling.common.LanguageProvider
+	func isSupportedSourceFile(file as jk.fs.File) as bool
+	func getParserForFile(file as jk.fs.File) as sling.common.CodeParser
+	func parseFileWithContext(nctx as jk.log.LoggingContext, file as jk.fs.File) as sling.common.CodeFileNode
+	func parseFile(file as jk.fs.File) as sling.common.CodeFileNode
+	func forEachSupportedFile(handler as function<void,jk.fs.File>)
+	func forEachSupportedCodeFile(errors as vector<string>, handler as function<void,jk.log.LoggingContext,sling.common.CodeFileNode>)
+}
+class name sling.task.TextFileEditorTask header extends sling.task.FileTask abstract public
+{
+	import jk.fs
+	import jk.log
+	import jk.diff
+	import jk.lang
+	ctor
+	property action as string { hasset hasget }
+	func configureValue(key as string, value as object) override
+	func executeForFile(file as jk.fs.File) override
+	func executeForFileContents(data as string, file as jk.fs.File) abstract as string
+}
+class name sling.task.FileTask header extends sling.task.SlingTask abstract public
+{
+	import jk.fs
+	import jk.lang
+	ctor
+	func execute override
+	func executeForAllFiles virtual
+	func forEachFile(handler as function<void,jk.fs.File>)
+	func executeForFile(file as jk.fs.File) abstract
+}
+class name sling.task.SlingFileEditorTask header extends sling.task.TextFileEditorTask abstract public
+{
+	import jk.fs
+	import sling.common
+	import sling.parser
+	import sling.generator
+	import jk.lang
+	ctor
+	func executeForFileContents(data as string, file as jk.fs.File) override as string
+	func processSlingCodeTree(tree as sling.common.CodeFileNode) abstract
+}
+class name sling.task.SlingTask header abstract public
+{
+	import jk.fs
+	import jk.log
+	import jk.slon
+	import jk.lang
+	ctor
+	property ctx as jk.log.LoggingContext { hasset hasget }
+	property sources as vector<jk.fs.File> { hasset hasget }
+	property output as jk.fs.File { hasset hasget }
+	func addToSources(file as jk.fs.File)
+	func configureValue(key as string, value as object) virtual
+	func configure(data as string) virtual
+	func getAllFiles as vector<jk.fs.File>
+	func iterateAllFiles as jk.lang.Iterator<jk.fs.File>
+	func writeOutputFile(name as string, data as string)
+	func execute abstract
+}

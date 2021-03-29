@@ -1,0 +1,52 @@
+class name jk.web.WebClientAsyncForJavaScript header public
+{
+	import jk.lang
+	import jk.json
+	ctor
+	class name Response header public static
+	{
+		ctor
+		func getBodyAsBuffer as buffer
+		func getBodyAsString as string
+		func getBodyAsDynamicMap as jk.lang.DynamicMap
+		func getHttpStatus as string #getterMethod
+		func setHttpStatus(v as string) as jk.web.WebClientAsyncForJavaScript.Response #setterMethod
+		func getHttpStatusDescription as string #getterMethod
+		func setHttpStatusDescription(v as string) as jk.web.WebClientAsyncForJavaScript.Response #setterMethod
+		func getHeaders as jk.lang.KeyValueListForStrings #getterMethod
+		func setHeaders(v as jk.lang.KeyValueListForStrings) as jk.web.WebClientAsyncForJavaScript.Response #setterMethod
+		func getBody as buffer #getterMethod
+		func setBody(v as buffer) as jk.web.WebClientAsyncForJavaScript.Response #setterMethod
+	}
+	func getXMLHttpRequestObject as !"XMLHttpRequest"
+	func executeRequest(method as string, url as string, headers as jk.lang.KeyValueList<string,string>, body as buffer) async as promise<jk.web.WebClientAsyncForJavaScript.Response>
+	func getFollowRedirects as bool #getterMethod
+	func setFollowRedirects(v as bool) as jk.web.WebClientAsyncForJavaScript #setterMethod
+	func getCredentialsEnabled as bool #getterMethod
+	func setCredentialsEnabled(v as bool) as jk.web.WebClientAsyncForJavaScript #setterMethod
+}
+class name jk.web.NativeWebClient header public
+{
+	import jk.lang
+	ctor
+	func instance static as jk.web.WebClient
+}
+class name jk.web.WebClientForJavaScript header extends jk.web.WebClient public
+{
+	import jk.lang
+	ctor
+	func query(method as string, url as string, requestHeaders as jk.lang.KeyValueList<string,string>, body as buffer, callback as function<void,string,jk.lang.KeyValueList<string,string>,buffer>) override
+	func getXMLHttpRequestObject as !"XMLHttpRequest"
+	func onResponseReceived(status as string, responseHeaders as string, body as buffer, callback as function<void,string,jk.lang.KeyValueList<string,string>,buffer>)
+	func send(method as string, url as string, requestHeaders as jk.lang.KeyValueList<string,string>, body as buffer, callback as function<void,string,jk.lang.KeyValueList<string,string>,buffer>)
+}
+class name jk.web.WebClient header abstract public
+{
+	import jk.lang
+	ctor
+	func query(method as string, url as string, headers as jk.lang.KeyValueList<string,string>, body as buffer, callback as function<void,string,jk.lang.KeyValueList<string,string>,buffer>) abstract
+	func getFollowRedirects as bool #getterMethod
+	func setFollowRedirects(v as bool) as jk.web.WebClient #setterMethod
+	func getCredentialsEnabled as bool #getterMethod
+	func setCredentialsEnabled(v as bool) as jk.web.WebClient #setterMethod
+}

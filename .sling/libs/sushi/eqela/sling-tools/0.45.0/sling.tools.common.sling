@@ -1,0 +1,25 @@
+class name sling.tools.common.ClassReference header public
+{
+	import jk.lang
+	ctor
+	func parse(string as string) static as sling.tools.common.ClassReference
+	property libName as string { hasset hasget }
+	property libVersion as string { hasset hasget }
+	property moduleName as string { hasset hasget }
+	property className as string { hasset hasget }
+	property data as string { hasset hasget }
+}
+class name sling.tools.common.SlingScriptCompiler header public
+{
+	import jk.lang
+	import jk.fs
+	import jk.log
+	import jk.env
+	import jk.process
+	property useCloudBuild as bool { hasset hasget }
+	property vm as string { hasset hasget }
+	property interpreter as string { hasset hasget }
+	ctor
+	ctor(ctx as jk.log.LoggingContext)
+	func toSushiCode(script as string) as buffer
+}

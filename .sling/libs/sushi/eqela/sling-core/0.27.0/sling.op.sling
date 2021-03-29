@@ -1,0 +1,92 @@
+class name sling.op.RenamerForReservedWords header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import jk.lang
+	ctor
+	func execute(ctx as jk.log.LoggingContext, root as sling.common.NodeObject, words as array<string>, issueWarnings as bool = true) static
+}
+class name sling.op.OverloadedMethodRenamer header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import jk.lang
+	ctor
+	func addToMap(ee as sling.model.EntityDeclarationNode, ignore as jk.lang.StringSet, ht as map<string,vector<sling.model.FunctionDeclarationNode>>, skipStatic as bool)
+	func execute(ctx as jk.log.LoggingContext, node as sling.common.NodeObject)
+	func getResolver as sling.util.TypeResolver #getterMethod
+	func setResolver(v as sling.util.TypeResolver) as sling.op.OverloadedMethodRenamer #setterMethod
+	func getIgnoreStatic as bool #getterMethod
+	func setIgnoreStatic(v as bool) as sling.op.OverloadedMethodRenamer #setterMethod
+}
+class name sling.op.CommonOps header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import jk.lang
+	ctor
+	func flattenOptionalDataTypes(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func flattenUnwrappingExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func flattenPromiseExpressions(node as sling.common.NodeObject) static
+	func removeComments(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func removeDestructors(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func renameAmbiguousClassVariables(node as sling.common.NodeObject) static
+	func expandConditionalExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandAssignmentExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandAssertStatements(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandFailureLiterals(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandErrorStatements(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandThisReferences(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandForStatements(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandDynamicCastExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, excludeReferenceTypes as bool = false) static
+	func changeContinueToGoto(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func wrapAssignmentsInExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertSwitchToIf(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, blocks as array<typeinfo> = null) static
+	func addReturnToMainFunction(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandStubFunctions(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func fixInheritanceTypes(ctx as jk.log.LoggingContext, tr as sling.util.TypeResolver, root as sling.common.NodeObject) static
+	func setDefaultValuesInVariableDeclarations(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func createDefaultConstructors(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func handleMainFunctionsForAllScripts(ctx as jk.log.LoggingContext, root as sling.common.NodeObject, generateMainCall as bool, argSymbolName as string) static
+	func determineAccessType(node as sling.model.MemberAccessExpressionNode) static as int
+	func determineAndSetAccessType(node as sling.model.MemberAccessExpressionNode) static
+	func setMemberAccessExpressionTypes(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func forceUnresolveSymbols(root as sling.common.NodeObject) static
+	func nodeHasCommonModifier(node as sling.common.NodeObject, mod as string) static as bool
+	func unresolveSymbols(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func addExplicitCurrentObjectExpressions(ctx as jk.log.LoggingContext, tr as sling.util.TypeResolver, root as sling.common.NodeObject) static
+	func addBaseCallsToConstructors(ctx as jk.log.LoggingContext, resolver as sling.util.TypeResolver, root as sling.common.NodeObject) static
+	func addAwaitAndAsyncModifiers(node as sling.common.NodeObject) static
+	func removeEmptyNamespaces(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func convertToOneBasedIndexing(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func cleanReturnStatementsInFunctions(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func sortEntitiesByDependencies(ctx as jk.log.LoggingContext, resolver as sling.util.TypeResolver, root as sling.common.NodeObject) static
+	func renameOverloadedMethods(ctx as jk.log.LoggingContext, resolver as sling.util.TypeResolver, root as sling.common.NodeObject, ignoreStatic as bool = false) static
+	func addDefaultParameterValuesToFunctionCalls(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func wrapFunctionReferencesToFunctionDeclarationExpressions(ctx as jk.log.LoggingContext, root as sling.common.NodeObject, tr as sling.util.TypeResolver) static
+	func convertMultipleExpressionsToFunctionExpression(root as sling.common.NodeObject) static
+	func removeExpressionDataTypeNodes(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func surroundLocalVariablesInBlocks(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func removeIntegerToIntegerCasts(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func removeHeaderDeclarations(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertScriptsToClassDeclarations(node as sling.common.NodeObject) static
+	func convertEnumsToClassDeclarations(node as sling.common.NodeObject) static
+}
+class name sling.op.EntitySorter header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import jk.lang
+	ctor
+	func execute(ctx as jk.log.LoggingContext, root as sling.common.NodeObject)
+	func getResolver as sling.util.TypeResolver #getterMethod
+	func setResolver(v as sling.util.TypeResolver) as sling.op.EntitySorter #setterMethod
+}

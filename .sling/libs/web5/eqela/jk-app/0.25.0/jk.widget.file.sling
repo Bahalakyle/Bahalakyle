@@ -1,0 +1,27 @@
+class name jk.widget.file.FileInputWidget header extends jk.widget.Widget public #widget
+{
+	import jk.lang
+	import jk.lang
+	import jk.ui
+	import jk.gfx
+	import jk.widget
+	func forType(context as jk.ui.GuiApplicationContext, type as string) static as jk.widget.file.FileInputWidget
+	func createElement override as object
+	func prepareElement(v as object) override
+	ctor(context as jk.ui.GuiApplicationContext)
+	func setWidgetType(type as string)
+	func getWidgetType as string
+	func setWidgetListener(event as string, listener as function<void>)
+	func getWidgetFileName as string
+	func getWidgetFileMimeType as string
+	func getWidgetFileContents as buffer
+}
+class name jk.widget.file.FileSelector header public
+{
+	import jk.lang
+	import jk.ui
+	import jk.app
+	import jk.widget
+	ctor(context as jk.ui.GuiApplicationContext)
+	func openFileDialog(widget as jk.widget.Widget, type as string, callback as function<void,buffer,string,string,jk.lang.Error>)
+}

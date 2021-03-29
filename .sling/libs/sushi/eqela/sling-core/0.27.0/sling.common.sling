@@ -1,0 +1,1057 @@
+class name sling.common.CodeParser header extends sling.common.LiveTokenizingParser implements sling.common.FileParser abstract public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	macro PARSE_EXPRESSIONS(varname, value, description)
+	{
+		var __varname__ = value
+		if not __varname__ {
+			skipSpaces()
+			updateStagingToken()
+			throw ReferenceError.forMessage("Expected: " .. getDisplayText(description), getStagingToken(), StackTrace.generate())
+		}
+	}
+	func finalizeResult(result as sling.common.CodeFileNode, file as jk.fs.File) as sling.common.CodeFileNode
+	func finalizeResult(result as sling.common.CodeFileNode, name as string) as sling.common.CodeFileNode
+	func parseFile(file as jk.fs.File) as sling.common.CodeFileNode
+	func parseString(string as string, name as string) as sling.common.CodeFileNode
+	func parse abstract as sling.common.CodeFileNode
+}
+interface name sling.common.OutputWriterManager header public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func getOutputFile(name as string) as sling.common.OutputWriter
+	func finalize
+}
+class name sling.common.CodeDirectoryNode header extends sling.common.NamedContainerNode public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setDescription(v as string)
+	func getDescription as string
+}
+class name sling.common.ExpectedErrorMessage header extends sling.common.StaticTextErrorMessage public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forText(t as string, ref as sling.common.SourceReference = null, isDebug as bool = false) static as sling.common.ExpectedErrorMessage
+	func getPrefix override as string
+}
+class name sling.common.RefLogCollectorContext header implements jk.log.LoggingContext implements sling.common.RefLogContext public
+{
+	import jk.log
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func onMessage(message as sling.common.Message)
+	func logError(message as string)
+	func logWarning(message as string)
+	func logInfo(message as string)
+	func logDebug(message as string)
+	func logStatus(message as string)
+	func isInDebugMode as bool
+	func getErrorCount as int
+	func getWarningCount as int
+	func getInfoCount as int
+	func getDebugCount as int
+	func resetCounters
+	func getMessages as vector<sling.common.Message> #getterMethod
+	func setMessages(v as vector<sling.common.Message>) as sling.common.RefLogCollectorContext #setterMethod
+}
+class name sling.common.StringOutputWriterManager header implements sling.common.OutputWriterManager public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getOutputFile(name as string) as sling.common.OutputWriter
+	func getResult as string
+	func finalize
+	func toString as string
+}
+interface name sling.common.NamedNode header extends sling.common.NodeObject public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func getNodeName as string
+	func renameNode(v as string)
+}
+class name sling.common.CodeGenerator header extends sling.common.FileGenerator abstract public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor(ctx as jk.log.LoggingContext, output as sling.common.OutputWriterManager)
+	macro OUTPUT_ERROR_UNSUPPORTED(node, context):
+		throw ReferenceError.forMessage("Unsupported node type `" .. node.getNodeTypeName() .. "' in context `" .. context .. "'", node)
+	func getCurrentModuleName as string
+	func onModuleStarted virtual
+	func onModuleEnded virtual
+	func writeModule(module as sling.common.CodeUnitNode)
+	func writeFile(file as sling.common.CodeFileNode)
+	func dumpModule(module as sling.common.CodeUnitNode) abstract
+	func dumpFile(file as sling.common.CodeFileNode) abstract
+	func getCurrentModule as sling.common.CodeUnitNode #getterMethod
+	func setCurrentModule(v as sling.common.CodeUnitNode) as sling.common.CodeGenerator #setterMethod
+}
+interface name sling.common.SourceReference header public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func getSourceName as string
+	func getSourceToken as string
+	func getSourceLineNumber as int
+	func getSourceColumnNumber as int
+	func getSourceContentLine as string
+	func getNodeTrace as string
+}
+class name sling.common.ErrorMessage header extends sling.common.Message public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forText(t as string, ref as sling.common.SourceReference = null, isDebug as bool = false, trace as string = null) static as sling.common.ErrorMessage
+	func forError(err as jk.lang.Error, ref as sling.common.SourceReference = null, isDebug as bool = false, trace as string = null) static as sling.common.ErrorMessage
+	func forObject(o as object, isDebug as bool = false, trace as string = null) static as sling.common.ErrorMessage
+	func asWarning as sling.common.WarningMessage
+	func updateStackTrace
+	func getType override as string
+	func toStringWithDebug(isDebug as bool) override as string
+	func getStackTrace as string #getterMethod
+	func setStackTrace(v as string) as sling.common.ErrorMessage #setterMethod
+}
+class name sling.common.Message header implements jk.json.JSONObject implements jk.lang.StringObject implements jk.lang.StringObjectWithDebug abstract public
+{
+	import jk.json
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func formatToken(token as string) as string
+	func toJsonObject as object
+	func fromJsonObject(o as object) as bool
+	func getType abstract as string
+	func addRelatedMessage(message as sling.common.Message)
+	func copyFrom(msg as sling.common.Message)
+	func getMessageString virtual as string
+	func toStringWithDebug(isDebug as bool) virtual as string
+	func toString as string
+	func getMessage as string #getterMethod
+	func setMessage(v as string) as sling.common.Message #setterMethod
+	func getReference as sling.common.SourceReference #getterMethod
+	func setReference(v as sling.common.SourceReference) as sling.common.Message #setterMethod
+	func getRelatedMessages as vector<sling.common.Message> #getterMethod
+	func setRelatedMessages(v as vector<sling.common.Message>) as sling.common.Message #setterMethod
+}
+class name sling.common.TokenSource header public
+{
+	import jk.fs
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forFile(file as jk.fs.File, name as string) static as sling.common.TokenSource
+	func forString(str as string) static as sling.common.TokenSource
+	func setName(v as string) as sling.common.TokenSource
+	func getName as string
+	func getContent as string
+	func setContent(v as string) as sling.common.TokenSource
+	func recycleContent
+	func getLines as vector<string>
+	func getLine(n as int) as string
+	func getFile as jk.fs.File #getterMethod
+	func setFile(v as jk.fs.File) as sling.common.TokenSource #setterMethod
+}
+class name sling.common.InfoMessage header extends sling.common.Message public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forText(t as string, ref as sling.common.SourceReference = null) static as sling.common.InfoMessage
+	func getType override as string
+}
+class name sling.common.ContainerNode header extends sling.common.NodeObject public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getNodeIndexNames as vector<string>
+	func getNodeIndexForName(name as string) as vector<sling.common.NodeObject>
+	func copyTo(node as sling.common.NodeObject) override as bool
+	func getChildCount as int
+	func getInsertionPointForChild(node as sling.common.NodeObject) override as sling.common.NodeInsertionPoint
+	func insertAboveNode(newnode as sling.common.NodeObject, existingnode as sling.common.NodeObject) as bool
+	func insertBelowNode(newnode as sling.common.NodeObject, existingnode as sling.common.NodeObject) as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func replaceExport(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject) as sling.common.NodeObject
+	func getNodeTypeName override as string
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func exportNode(decl as sling.common.NodeObject) as sling.common.NodeObject
+	func getNodes as vector
+	func getFirstNode as sling.common.NodeObject
+	func getLastNode as sling.common.NodeObject
+	func exportNodes as vector
+	func importNodes(decls as vector)
+	func hasChildNode(name as string) as bool
+	func setNodes(decls as vector)
+	func addToIndex(decl as sling.common.NodeObject) virtual
+	func removeFromIndex(decl as sling.common.NodeObject) virtual
+	func updateIndexForChild(decl as sling.common.NodeObject) override
+	func insertNode(decl as sling.common.NodeObject, index as int)
+	func addNode(decl as sling.common.NodeObject)
+	func addToNodes(decl as sling.common.NodeObject)
+	func prependNode(decl as sling.common.NodeObject)
+	func removeNode(decl as sling.common.NodeObject)
+	func clearNodes virtual
+	func onChildDestroy(node as sling.common.NodeObject) override
+	func destroy override
+	func merge(other as sling.common.ContainerNode) as bool
+	func getCaseSensitiveIndex as bool #getterMethod
+	func setCaseSensitiveIndex(v as bool) as sling.common.ContainerNode #setterMethod
+}
+class name sling.common.DebugMessage header extends sling.common.Message public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forText(t as string, ref as sling.common.SourceReference = null) static as sling.common.DebugMessage
+	func forMessage(msg as sling.common.Message) static as sling.common.DebugMessage
+	func getType override as string
+}
+class name sling.common.NamedContainerNode header extends sling.common.ContainerNode implements sling.common.NamedNode public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getNodeName virtual as string
+	func renameNode(name as string) virtual
+	func setName(name as string)
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func getName as string
+}
+interface name sling.common.FileParser header public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func parseFile(file as jk.fs.File) as sling.common.CodeFileNode
+}
+interface name sling.common.OutputWriter header public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func writeString(str as string) as bool
+	func writeBuffer(buf as buffer) as bool
+	func finalize as bool
+}
+interface name sling.common.NodeInsertionPoint header public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func insertBefore(node as sling.common.NodeObject) as bool
+	func insertAfter(node as sling.common.NodeObject) as bool
+	func getBefore as sling.common.NodeObject
+	func getNode as sling.common.NodeObject
+	func getAfter as sling.common.NodeObject
+}
+class name sling.common.StatusMessage header extends sling.common.Message public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forText(text as string) static as sling.common.StatusMessage
+	func getType override as string
+}
+class name sling.common.Token header implements sling.common.SourceReference public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func instance(value as string, line as int, column as int, position as int) static as sling.common.Token
+	var value public as string
+	var line public as int
+	var column public as int
+	var position public as int
+	var source public as sling.common.TokenSource
+	func dupWithValue(str as string) as sling.common.Token
+	func getTokenLineCount as int
+	func setValue(val as string) as sling.common.Token
+	func getValue as string
+	func getSourceName as string
+	func getSourceToken as string
+	func getSourceLineNumber as int
+	func getSourceColumnNumber as int
+	func getSourceContentLine virtual as string
+	func getNodeTrace as string
+}
+class name sling.common.DataTypeNode header extends sling.common.NodeObject public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func duplicate(node as sling.common.NodeObject) static as sling.common.DataTypeNode
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setIsNullable(v as bool)
+	func getIsNullable as bool
+}
+class name sling.common.CodeFileNode header extends sling.common.NamedContainerNode public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setFile(v as jk.fs.File)
+	func getFile as jk.fs.File
+	func setDescription(v as string)
+	func getDescription as string
+}
+class name sling.common.NodeObject header implements sling.common.SourceReference public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	macro IMPLEMENT_CREATE_NEW:
+		return new typeof(this)()
+	macro IMPLEMENT_COPY_TO_BEGIN
+	{
+		if base.copyTo(o) == false:
+			return false
+		var n = o as typeof(this)
+		if n == null:
+			return true
+	}
+	macro IMPLEMENT_COPY_PROPERTY(vv)
+	{
+		if n.__vv__ {
+			n.__vv__.destroy()
+			n.__vv__ = null
+		}
+		if vv {
+			var pcp = NodeObject.dupNode(vv) as typeof(vv)
+			if pcp == null:
+				return false
+			n.__vv__ = pcp
+			n.__vv__.setParent(n)
+		}
+	}
+	macro IMPLEMENT_COPY_VALUE(vv):
+		n.__vv__ = vv
+	macro IMPLEMENT_COPY_TO_END:
+		return true
+	macro IMPLEMENT_SET_PROPERTY(vv)
+	{
+		if vv && doExport == false:
+			vv.destroy()
+		vv = v
+		if vv:
+			vv.setParent(this)
+	}
+	macro IMPLEMENT_SET_VALUE(vv):
+		vv = v
+	macro IMPLEMENT_EXPORT_PROPERTY(vv)
+	{
+		var v = vv
+		vv = null
+		return v
+	}
+	macro IMPLEMENT_GET_PROPERTY(vv):
+		return vv
+	macro IMPLEMENT_GET_VALUE(vv):
+		return vv
+	macro IMPLEMENT_ACCEPT_VISITOR_BEGIN
+	{
+		if base.acceptVisitor(visitor) == false:
+			return false
+	}
+	macro IMPLEMENT_VISIT_PROPERTY(vv)
+	{
+		if vv {
+			if vv.accept(visitor) == false:
+				return false
+		}
+	}
+	macro IMPLEMENT_ACCEPT_VISITOR_END:
+		return true
+	macro IMPLEMENT_DESTROY_BEGIN:
+		base.destroy()
+	macro IMPLEMENT_DESTROY_PROPERTY(vv)
+	{
+		if vv {
+			vv.destroy()
+			vv = null
+		}
+	}
+	macro IMPLEMENT_DESTROY_END
+	{
+	}
+	macro IMPLEMENT_REPLACE_CHILD_BEGIN
+	{
+	}
+	macro IMPLEMENT_REPLACE_CHILD(vv)
+	{
+		if oldnode == vv {
+			if newnode && newnode is typeof(vv) == false:
+				return false
+			if doExport == false:
+				vv.destroy()
+			vv = newnode as typeof(vv)
+			if vv:
+				vv.setParent(this)
+			return true
+		}
+	}
+	macro IMPLEMENT_REPLACE_CHILD_IN_VECTOR(vv)
+	{
+		if replaceNodeInVector(vv, oldnode, newnode, doExport):
+			return true
+	}
+	macro IMPLEMENT_REPLACE_CHILD_END:
+		return base.replaceChild(oldnode, newnode, doExport)
+	macro IMPLEMENT_COPY_PROPERTY_VECTOR(nn)
+	{
+		foreach xx as NodeObject in n.__nn__:
+			xx.destroy()
+		n.__nn__ = null
+		foreach nod as NodeObject in nn {
+			var ndup = nod.dup() as NodeObject
+			if ndup == null:
+				return false
+			if n.__nn__ == null:
+				n.__nn__ = new vector
+			n.__nn__ += ndup
+			ndup.setParent(n)
+		}
+	}
+	macro IMPLEMENT_COPY_VALUE_VECTOR(nn)
+	{
+		n.__nn__ = new vector
+		foreach value in nn:
+			n.__nn__ += value
+	}
+	macro IMPLEMENT_CLEAR_VALUE_VECTOR(nn):
+		nn = null
+	macro IMPLEMENT_CLEAR_PROPERTY_VECTOR(nn)
+	{
+		foreach nx as NodeObject in nn:
+			nx.destroy()
+		nn = null
+	}
+	macro IMPLEMENT_SET_VALUE_VECTOR(nn)
+	{
+		nn = new vector
+		foreach value in v:
+			nn += value
+	}
+	macro IMPLEMENT_SET_PROPERTY_VECTOR(nn)
+	{
+		foreach nx as NodeObject in nn:
+			nx.destroy()
+		if v == null {
+			nn = null
+		}
+		else {
+			nn = new vector
+			foreach vv as NodeObject in v {
+				nn += vv
+				vv.setParent(this)
+			}
+		}
+	}
+	macro IMPLEMENT_ADD_TO_VALUE_VECTOR(nn)
+	{
+		if v == null:
+			return
+		if nn == null:
+			nn = new vector
+		nn += v
+	}
+	macro IMPLEMENT_ADD_TO_PROPERTY_VECTOR(nn)
+	{
+		if v == null:
+			return
+		if nn == null:
+			nn = new vector
+		nn += v
+		v.setParent(this)
+	}
+	macro IMPLEMENT_GET_PROPERTY_VECTOR(nn):
+		return nn
+	macro IMPLEMENT_GET_VALUE_VECTOR(nn):
+		return nn
+	macro IMPLEMENT_EXPORT_PROPERTY_VECTOR(nn)
+	{
+		var v = nn
+		nn = null
+		return v
+	}
+	macro IMPLEMENT_DESTROY_PROPERTY_VECTOR(nn)
+	{
+		foreach nx as NodeObject in nn:
+			nx.destroy()
+		nn = null
+	}
+	macro IMPLEMENT_VISIT_PROPERTY_VECTOR(nn)
+	{
+		if visitVector(nn, visitor) == false:
+			return false
+	}
+	func dupNode(node as sling.common.NodeObject) static as sling.common.NodeObject
+	func visitVector(vector as vector, visitor as sling.common.NodeVisitor) as bool
+	func visitMap(nodes as map, visitor as sling.common.NodeVisitor) as bool
+	func accept(visitor as sling.common.NodeVisitor) as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) virtual as bool
+	func getSource as sling.common.SourceReference
+	func setSource(src as sling.common.SourceReference) as sling.common.NodeObject
+	func getSourceName as string
+	func getSourceToken as string
+	func getSourceLineNumber as int
+	func getSourceColumnNumber as int
+	func getSourceContentLine as string
+	func getNodeTrace as string
+	func updateIndexForChild(decl as sling.common.NodeObject) virtual
+	func onIndexPropertiesChanged virtual
+	func getNodeTypeName virtual as string
+	func getParent as sling.common.NodeObject
+	func clearParent
+	func setParent(parent as sling.common.NodeObject) virtual
+	func initialize virtual
+	func onChildDestroy(node as sling.common.NodeObject) virtual
+	func destroy virtual
+	func dup virtual as sling.common.NodeObject
+	func remove as bool
+	func exportNode as bool
+	func replaceNodeInVector(nodes as vector, oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) virtual as bool
+	func replaceWith(newnode as sling.common.NodeObject, doExport as bool = false) as bool
+	func createNew virtual as sling.common.NodeObject
+	func copyCustomTo(node as sling.common.NodeObject) virtual as bool
+	func copyTo(node as sling.common.NodeObject) virtual as bool
+	func getInsertionPointForChild(node as sling.common.NodeObject) virtual as sling.common.NodeInsertionPoint
+	func getInsertionPoint as sling.common.NodeInsertionPoint
+}
+class name sling.common.DirectoryOutputWriterManager header implements sling.common.OutputWriterManager public
+{
+	import jk.fs
+	import jk.os
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forDirectory(ctx as jk.log.LoggingContext, dir as jk.fs.File, overwrite as bool = true) static as sling.common.DirectoryOutputWriterManager
+	func getOutputFile(name as string) as sling.common.OutputWriter
+	func finalize
+	func getDirectory as jk.fs.File #getterMethod
+	func setDirectory(v as jk.fs.File) as sling.common.DirectoryOutputWriterManager #setterMethod
+	func getCtx as jk.log.LoggingContext #getterMethod
+	func setCtx(v as jk.log.LoggingContext) as sling.common.DirectoryOutputWriterManager #setterMethod
+	func getOverwrite as bool #getterMethod
+	func setOverwrite(v as bool) as sling.common.DirectoryOutputWriterManager #setterMethod
+	func getFiles as vector<jk.fs.File> #getterMethod
+	func setFiles(v as vector<jk.fs.File>) as sling.common.DirectoryOutputWriterManager #setterMethod
+}
+class name sling.common.WarningMessage header extends sling.common.Message public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forText(t as string, ref as sling.common.SourceReference = null) static as sling.common.WarningMessage
+	func getType override as string
+}
+class name sling.common.MessageFormatter header public
+{
+	import jk.fs
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getFilePath(file as jk.fs.File) static as string
+	func getFileMessage(file as jk.fs.File, message as string) static as string
+}
+class name sling.common.StaticSourceReference header implements sling.common.SourceReference public
+{
+	import jk.fs
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func instance(name as string, token as string, line as int, column as int, content as string, ref as sling.common.SourceReference) static as sling.common.StaticSourceReference
+	func forFile(file as jk.fs.File) static as sling.common.StaticSourceReference
+	func getSourceName as string
+	func getSourceToken as string
+	func getSourceLineNumber as int
+	func getSourceColumnNumber as int
+	func getSourceContentLine as string
+	func getNodeTrace as string
+	func getName as string #getterMethod
+	func setName(v as string) as sling.common.StaticSourceReference #setterMethod
+	func getToken as string #getterMethod
+	func setToken(v as string) as sling.common.StaticSourceReference #setterMethod
+	func getLineNumber as int #getterMethod
+	func setLineNumber(v as int) as sling.common.StaticSourceReference #setterMethod
+	func getColumnNumber as int #getterMethod
+	func setColumnNumber(v as int) as sling.common.StaticSourceReference #setterMethod
+	func getContentLine as string #getterMethod
+	func setContentLine(v as string) as sling.common.StaticSourceReference #setterMethod
+	func getSourceReference as sling.common.SourceReference #getterMethod
+	func setSourceReference(v as sling.common.SourceReference) as sling.common.StaticSourceReference #setterMethod
+}
+class name sling.common.LiveTokenizingParser header abstract public
+{
+	import jk.log
+	import jk.fs
+	import jk.text
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	class name Position header public static
+	{
+		ctor
+		var line public as int
+		var column public as int
+		var position public as int
+		var commentQueueSize public as int
+		var previousToken public as sling.common.Token
+	}
+	var IMPROPER_COMMENT_NOOP const public static as int
+	var IMPROPER_COMMENT_IGNORE const public static as int
+	var IMPROPER_COMMENT_WARN_IGNORE const public static as int
+	var IMPROPER_COMMENT_QUEUE const public static as int
+	var IMPROPER_COMMENT_WARN_QUEUE const public static as int
+	var ctx protected as jk.log.LoggingContext
+	var iterator protected as jk.lang.CharacterIterator
+	var currentTokenLine protected as int
+	var currentTokenColumn protected as int
+	var currentTokenSource protected as sling.common.TokenSource
+	var stagingToken protected as sling.common.Token
+	var acceptedToken protected as sling.common.Token
+	var commentQueue protected as jk.lang.Queue<sling.common.Token>
+	var previousToken protected as sling.common.Token
+	func resetParserState virtual
+	func consumeParseMessages as vector<sling.common.Message>
+	func getDisplayText(txt as string) as string
+	macro PARSE_ERROR_EXPECT(txt)
+	{
+		skipSpaces()
+		updateStagingToken()
+		throw ReferenceError.forMessage("Expected: " .. getDisplayText(txt), getStagingToken(), StackTrace.generate())
+	}
+	macro PARSE_ERROR_EXPECT(txt, src):
+		throw ReferenceError.forMessage("Expected: " .. getDisplayText(txt), src, StackTrace.generate())
+	macro PARSE_ERROR(txt)
+	{
+		skipSpaces()
+		updateStagingToken()
+		throw ReferenceError.forMessage(txt, getStagingToken(), StackTrace.generate())
+	}
+	macro PARSE_ERROR(txt, src):
+		throw ReferenceError.forMessage(txt, src, StackTrace.generate())
+	macro PARSE_VALIDATE_OBJECT(o)
+	{
+		if not o {
+			skipSpaces()
+			updateStagingToken()
+			throw ReferenceError.forMessage("Invalid object", getStagingToken(), StackTrace.generate())
+		}
+	}
+	macro PARSE_WARNING_EXPECT(txt, src):
+		onParseMessage(WarningMessage.forText("Expected: " .. txt, src))
+	macro PARSE_WARNING(txt):
+		onParseMessage(WarningMessage.forText(txt, getStagingToken()))
+	macro PARSE_WARNING(txt, src):
+		onParseMessage(WarningMessage.forText(txt, src))
+	macro PARSE_WARNING_DEPRECATED(src):
+		onParseMessage(WarningMessage.forText("Deprecated construct", src))
+	macro PARSE_DEBUG(txt)
+	{
+		if ctx == null || ctx.isInDebugMode():
+			onParseMessage(DebugMessage.forText(txt, getStagingToken()))
+	}
+	macro PARSE_DEBUG(txt, src)
+	{
+		if ctx == null || ctx.isInDebugMode():
+			onParseMessage(DebugMessage.forText(txt, src))
+	}
+	func onParseMessage(message as sling.common.Message)
+	func initializeForTokenSource(source as sling.common.TokenSource)
+	func initializeForFile(file as jk.fs.File)
+	func initializeForString(content as string, contentName as string = null)
+	func isSpaceCharacter(n as char) virtual as bool
+	func setCtx(ctx as jk.log.LoggingContext) as sling.common.LiveTokenizingParser
+	func getCtx as jk.log.LoggingContext
+	func getCurrentTokenSource virtual as sling.common.TokenSource
+	func getCurrentTokenLine virtual as int
+	func getCurrentTokenColumn virtual as int
+	func getCurrentInputName virtual as string
+	func getCurrentFile virtual as jk.fs.File
+	func getCurrentFileName virtual as string
+	func getCurrentFileId virtual as string
+	func getCurrentDirectory virtual as jk.fs.File
+	func getRelativeFile(name as string) virtual as jk.fs.File
+	func getRelativeFileIgnoreCase(name as string) as jk.fs.File
+	func readFileContentsString(file as jk.fs.File) virtual as string
+	func updateStagingToken virtual
+	func getStagingToken virtual as sling.common.Token
+	func rememberPosition as sling.common.LiveTokenizingParser.Position
+	func restorePosition(token as sling.common.LiveTokenizingParser.Position)
+	macro REMEMBER_POSITION
+	{
+		var ctc = currentTokenColumn
+		var ctl = currentTokenLine
+		var ctp = iterator.getCurrentPosition()
+		var cqs = 0
+		if commentQueue:
+			cqs = commentQueue.getSize()
+		var cpt = previousToken
+	}
+	macro RESTORE_POSITION
+	{
+		currentTokenColumn = ctc
+		currentTokenLine = ctl
+		iterator.setCurrentPosition(ctp)
+		while commentQueue && commentQueue.getSize() > cqs:
+			commentQueue.pop()
+		previousToken = cpt
+	}
+	func getPreviousToken as sling.common.Token
+	func getAcceptedToken virtual as sling.common.Token
+	func hasInputEnded virtual as bool
+	func peekNextCharacter virtual as char
+	func getNextCharacter virtual as char
+	func skipSpaces virtual as int
+	func areTokensConnected(first as sling.common.Token, second as sling.common.Token) as bool
+	func onTokenAccepted(token as sling.common.Token) virtual
+	func acceptEOF virtual as sling.common.Token
+	func preprocessCharacter(c as char) as char
+	func getCharacterBoundaryClass(c as char) virtual as int
+	func isTokenBoundary(c0 as char, c1 as char) virtual as bool
+	func acceptString(str as string) as string
+	func acceptAnyString(strings as array<string>) as string
+	func acceptAnyToken(tokens as array<string>) as sling.common.Token
+	func acceptConnectedToken(token as string) as sling.common.Token
+	func peekToken(token as string) as bool
+	func peekToken(token as char) as bool
+	func acceptToken(token as string) as sling.common.Token
+	func acceptToken(c as char) as sling.common.Token
+	func acceptToken(c0 as char, c1 as char) as sling.common.Token
+	func acceptToken(c0 as char, c1 as char, c2 as char) as sling.common.Token
+	func acceptToken(c0 as char, c1 as char, c2 as char, c3 as char) as sling.common.Token
+	func preprocessIdentifier(t as string) virtual as string
+	func acceptIdentifierToken virtual as sling.common.Token
+	func acceptBacktickQuotedStringToken virtual as sling.common.Token
+	func acceptSingleQuotedStringToken virtual as sling.common.Token
+	func acceptDoubleQuotedStringToken(escapeChar as char, allowNewlines as bool) virtual as sling.common.Token
+	func acceptTripleQuotedMultiLineStringToken as sling.common.Token
+	func acceptHexNumberLiteralToken(acceptUnderscores as bool) virtual as sling.common.Token
+	func acceptOctalNumberLiteralToken(acceptUnderscores as bool, requirePrefix as bool) virtual as sling.common.Token
+	func acceptBinaryNumberLiteralToken(acceptUnderscores as bool) virtual as sling.common.Token
+	func acceptIntegerLiteralToken(acceptUnderscores as bool) as sling.common.Token
+	func acceptDecimalNumberLiteralToken(acceptUnderscores as bool, allowStartWithDelimiter as bool, allowExponent as bool, allowEndWithDelimiter as bool = false) as sling.common.Token
+	func isNumberLiteralSuffixReal(c as char) virtual as bool
+	func acceptImmediateHashCommentToken virtual as sling.common.Token
+	func acceptImmediateSlashSlashCommentToken virtual as sling.common.Token
+	func acceptImmediateSlashAsteriskCommentToken virtual as sling.common.Token
+	func parseIdentifierToken as sling.common.Token
+	func acceptIdentifier as string
+	func parseIdentifier as string
+	func parseToken(token as string) as sling.common.Token
+	func parseToken(token as char) as sling.common.Token
+	func acceptCommentString as string
+	func acceptCommentToken virtual as sling.common.Token
+	func skipSpaceCharacter virtual as bool
+	func isValidIdentifier(t as string) virtual as bool
+	func isValidIdentifierPrefix(c as char) virtual as bool
+	func isValidIdentifierCharacter(c as char) virtual as bool
+	func preprocessContent(content as string) virtual as string
+	func acceptImmediateCommentToken virtual as sling.common.Token
+	func getImproperCommentPolicy as int #getterMethod
+	func setImproperCommentPolicy(v as int) as sling.common.LiveTokenizingParser #setterMethod
+	func getTokensAreCaseSensitive as bool #getterMethod
+	func setTokensAreCaseSensitive(v as bool) as sling.common.LiveTokenizingParser #setterMethod
+	func getFileEncoding as string #getterMethod
+	func setFileEncoding(v as string) as sling.common.LiveTokenizingParser #setterMethod
+	func getParseMessages as vector<sling.common.Message> #getterMethod
+	func setParseMessages(v as vector<sling.common.Message>) as sling.common.LiveTokenizingParser #setterMethod
+	func getAllowSkipSpaces as bool #getterMethod
+	func setAllowSkipSpaces(v as bool) as sling.common.LiveTokenizingParser #setterMethod
+}
+class name sling.common.ReferenceError header extends jk.lang.Exception implements jk.lang.StringObject implements jk.lang.StringObjectWithDebug public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func forMessage(message as string, source as sling.common.SourceReference = null, trace as string = null) static as sling.common.ReferenceError
+	func forErrorMessage(error as sling.common.ErrorMessage) static as sling.common.ReferenceError
+	macro THROW(message, source):
+		throw ReferenceError.forMessage(message, source)
+	func getMessage as string
+	func getReference as sling.common.SourceReference
+	func addRelatedMessage(message as string, source as sling.common.SourceReference) as sling.common.ReferenceError
+	func addRelatedMessageObject(message as sling.common.Message)
+	func toStringWithDebug(debug as bool) as string
+	func toString as string
+	func getError as sling.common.ErrorMessage #getterMethod
+	func setError(v as sling.common.ErrorMessage) as sling.common.ReferenceError #setterMethod
+}
+class name sling.common.NodeVisitor header public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func onStartVisit(node as sling.common.NodeObject) virtual as bool
+	func onEndVisit(node as sling.common.NodeObject) virtual as bool
+	func visit(node as sling.common.NodeObject) virtual as bool
+	func getSkipChildren as bool #getterMethod
+	func setSkipChildren(v as bool) as sling.common.NodeVisitor #setterMethod
+	func getLevel as int #getterMethod
+	func setLevel(v as int) as sling.common.NodeVisitor #setterMethod
+}
+class name sling.common.StaticTextErrorMessage header extends sling.common.ErrorMessage public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getPrefix virtual as string
+	func getMessageString override as string
+	func getText as string #getterMethod
+	func setText(v as string) as sling.common.StaticTextErrorMessage #setterMethod
+}
+class name sling.common.LanguageProvider header abstract public
+{
+	import jk.fs
+	import jk.log
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getId abstract as string
+	func getParserForFile(file as jk.fs.File) virtual as sling.common.CodeParser
+	func getGenerator(ctx as jk.log.LoggingContext, output as sling.common.OutputWriterManager) virtual as sling.common.CodeGenerator
+	func transformToSling(ctx as jk.log.LoggingContext, code as sling.common.CodeFileNode) virtual
+}
+class name sling.common.RefLog header public
+{
+	import jk.log
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func error(ctx as jk.log.LoggingContext, text as string, ref as sling.common.SourceReference = null, trace as string = null) static
+	func warning(ctx as jk.log.LoggingContext, text as string, ref as sling.common.SourceReference = null) static
+	func info(ctx as jk.log.LoggingContext, text as string, ref as sling.common.SourceReference = null) static
+	func debug(ctx as jk.log.LoggingContext, text as string, ref as sling.common.SourceReference = null) static
+	func status(ctx as jk.log.LoggingContext, text as string) static
+	func message(ctx as jk.log.LoggingContext, msg as sling.common.Message) static
+}
+class name sling.common.NamedNodeObject header extends sling.common.NodeObject implements sling.common.NamedNode public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getNodeName virtual as string
+	func renameNode(name as string) virtual
+	func setName(name as string)
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func getName as string
+}
+class name sling.common.PrintWriterOutputWriter header implements sling.common.OutputWriter public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func writeString(str as string) as bool
+	func writeBuffer(buf as buffer) as bool
+	func finalize as bool
+	func getWriter as jk.io.PrintWriter #getterMethod
+	func setWriter(v as jk.io.PrintWriter) as sling.common.PrintWriterOutputWriter #setterMethod
+	func getDoClose as bool #getterMethod
+	func setDoClose(v as bool) as sling.common.PrintWriterOutputWriter #setterMethod
+}
+interface name sling.common.RefLogContext header public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	func onMessage(message as sling.common.Message)
+}
+class name sling.common.CodeUnitSettingsNode header extends sling.common.NodeObject public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.common.CodeUnitNode header extends sling.common.NamedContainerNode public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setSettings(v as sling.common.CodeUnitSettingsNode, doExport as bool = false)
+	func getSettings as sling.common.CodeUnitSettingsNode
+	func exportSettings as sling.common.CodeUnitSettingsNode
+	func setDescription(v as string)
+	func getDescription as string
+}
+class name sling.common.FileGenerator header abstract public
+{
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	var outputWriterManager protected as sling.common.OutputWriterManager
+	var ctx protected as jk.log.LoggingContext
+	ctor
+	ctor(ctx as jk.log.LoggingContext, output as sling.common.OutputWriterManager)
+	func setCtx(ctx as jk.log.LoggingContext)
+	func setOutput(output as sling.common.OutputWriterManager)
+	macro OUTPUT_ERROR(message):
+		throw ReferenceError.forMessage(message, null, StackTrace.generate())
+	macro OUTPUT_ERROR(message, node):
+		throw ReferenceError.forMessage(message, node, StackTrace.generate())
+	macro OUTPUT_WARNING(message):
+		RefLog.warning(ctx, message, null)
+	macro OUTPUT_WARNING(message, ref):
+		RefLog.warning(ctx, message, ref)
+	func getCurrentWriter as sling.common.OutputWriter
+	func getCurrentFileName as string
+	func getCurrentFileId virtual as string
+	func output(output as string) virtual
+	func outputDirect(str as string)
+	func onFileStarted virtual
+	func onFileEnding virtual
+	func startFile(name as string)
+	func endFile
+	func writeToFile(name as string) as sling.common.OutputWriter
+	func writeToRelativeFile(name as string) as sling.common.OutputWriter
+	func writeBufferToRelativeFile(buffer as buffer, name as string)
+	func writeFileToRelativeFile(file as jk.fs.File, name as string)
+	func writeRelativeFileToRelativeFile(relativeTo as jk.fs.File, name as string)
+	func writeToFile(name as string, content as string)
+	func writeToFile(name as string, content as buffer)
+	func getOutputCounter as int #getterMethod
+	func setOutputCounter(v as int) as sling.common.FileGenerator #setterMethod
+}
+class name sling.common.CodeStringUtil header public
+{
+	import jk.text
+	import jk.math
+	import jk.log
+	import jk.fs
+	import jk.io
+	import jk.lang
+	ctor
+	func combineCamelCase(components as array) static as string
+	func escapeStringLiteralCStyle(str as string) static as string
+	func unescapeStringLiteralCStyle(str as string, removeFirstAndLast as bool = true) static as string
+	func unescapeStringLiteralSingleQuoteStyle(str as string) static as string
+	func unescapeCharacterLiteralCStyle(literal as string, removeFirstAndLast as bool = true) static as jk.lang.CharacterObject
+	func forDoubleHex(vv as double #used, minlength as int = 0) static as string
+	func toDoubleFromHex(str as string) static as double
+}

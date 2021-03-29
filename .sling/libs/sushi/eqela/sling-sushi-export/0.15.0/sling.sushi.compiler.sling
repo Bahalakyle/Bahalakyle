@@ -1,0 +1,118 @@
+class name sling.sushi.compiler.SushiLibraryManager header extends sling.compiler.LibraryManager public
+{
+	import jk.fs
+	import jk.env
+	import sling.compiler
+	import jk.lang
+	ctor
+	func forDefaultDirectory static as sling.sushi.compiler.SushiLibraryManager
+	func forDirectory(dir as jk.fs.File) static as sling.sushi.compiler.SushiLibraryManager
+	func getDefaultRepositoryUrls(urls as vector<sling.compiler.LibraryManager.RepositoryUrl>) override
+	func getPlatformName as string
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) override as jk.fs.File
+}
+class name sling.sushi.compiler.SlingToSushiCompiler header extends sling.compiler.SlingCompiler public
+{
+	import jk.fs
+	import jk.os
+	import jk.log
+	import sling.op
+	import jk.archive
+	import sling.util
+	import sling.model
+	import sling.common
+	import sling.compiler
+	import jk.lang
+	class name BuildResult header public static
+	{
+		ctor
+		property linkResult as jk.fs.File { hasset hasget }
+		property installer as jk.fs.File { hasset hasget }
+	}
+	ctor(ctx as jk.log.LoggingContext)
+	func createLibraryManager override as sling.compiler.LibraryManager
+	func getTargetPlatformId override as string
+	func getTargetPlatformName override as string
+	func getDefines(v as jk.lang.DynamicMap) override
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) override as jk.fs.File
+	func executePreprocessorFilters(mod as sling.common.CodeUnitNode) override
+	func transform(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.util.TypeResolver) override
+	func writeModuleSources(ctx as jk.log.LoggingContext, node as sling.model.NamespaceNode, output as jk.fs.File) override
+	func buildToNativeApplication(source as jk.fs.File, output as jk.fs.File, customName as string, customVersion as string) as sling.sushi.compiler.SlingToSushiCompiler.BuildResult
+	func buildToSushiApplication(source as jk.fs.File, output as jk.fs.File, customName as string, customVersion as string) as sling.sushi.compiler.SlingToSushiCompiler.BuildResult
+}
+class name sling.sushi.compiler.SlingToSushiOps header public
+{
+	import jk.log
+	import sling.op
+	import sling.util
+	import sling.model
+	import sling.common
+	import jk.lang
+	ctor
+	func renameNodesWithReservedWords(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, issueWarnings as bool) static
+	func isDynamicExceptionVariableDeclaration(node as object) static as bool
+	func convertTryCatchToPcall(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, isSushi as bool) static
+	func enableSushiBitOps(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertToSushiSubscripts(root as sling.common.NodeObject) static
+	func addStaticCastsAroundIntegerDivisions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+}
+class name sling.sushi.compiler.SushiLuaGenerator header extends sling.common.CodeGenerator public
+{
+	import jk.log
+	import sling.util
+	import sling.model
+	import sling.common
+	import jk.lang
+	ctor(ctx as jk.log.LoggingContext, output as sling.common.OutputWriterManager)
+	func increaseIndent
+	func decreaseIndent
+	func output(str as string) override
+	func dumpComment(node as sling.model.CommentNode)
+	func dumpSymbol(symbol as sling.model.SymbolNode, isFunctionCall as bool = false)
+	func dumpImportPackageStatement(node as sling.model.ImportPackageStatementNode)
+	func dumpFunctionParameter(param as sling.common.NodeObject)
+	func dumpFunctionDeclaration(node as sling.model.FunctionDeclarationNode, isExpression as bool)
+	func dumpLocalVariableDeclaration(vd as sling.model.VariableDeclarationNode)
+	func dumpContainerNodes(nodes as vector, context as string)
+	func dumpBlock(block as sling.model.BlockNode)
+	func dumpScript(script as sling.common.CodeFileNode)
+	func escapeStringLiteral(str as string) as string
+	func dumpExpressionOrTuple(node as sling.model.ExpressionNode, parent as sling.model.ExpressionNode, isRvalue as bool = false)
+	func dumpDataType(node as sling.common.DataTypeNode)
+	func getBaseClassType(node as sling.common.NodeObject) as sling.model.ReferenceDataTypeNode
+	func getIsTypeVariableName(names as vector<string>) as string
+	func getOperatorPrecedence(node as sling.model.ExpressionNode) as int
+	func isLowerPriority(node as sling.model.ExpressionNode, parent as sling.model.ExpressionNode, isRvalue as bool) as bool
+	func dumpExpression(node as sling.model.ExpressionNode, parent as sling.model.ExpressionNode, isRvalue as bool = false)
+	func doDumpExpression(node as sling.model.ExpressionNode, parent as sling.model.ExpressionNode)
+	func dumpEmbedBlock(node as sling.model.EmbedBlockNode, isExpression as bool)
+	func dumpBinaryOperatorExpression(node as sling.model.BinaryExpressionNode, op as string)
+	func separateStatements(node as sling.common.NodeObject, prev as sling.common.NodeObject, context as string)
+	func getQualifiedName(name as string, delim as char) as string
+	func dumpNamespace(node as sling.model.NamespaceNode)
+	func getSetMetaTableCallString as string
+	func hasDestructor(node as sling.model.EntityDeclarationNode) as bool
+	func dumpClassDeclaration(node as sling.model.ClassDeclarationNode)
+	func dumpIfStatement(node as sling.model.IfStatementNode)
+	func dumpWhileStatement(node as sling.model.WhileStatementNode)
+	func dumpDoWhileStatement(node as sling.model.DoWhileStatementNode)
+	func dumpReturnStatement(node as sling.model.ReturnStatementNode)
+	func dumpBreakStatement(node as sling.model.BreakStatementNode)
+	func dumpForEachStatement(node as sling.model.ForEachStatementNode)
+	func dumpAssertStatement(node as sling.model.AssertStatementNode)
+	func dumpThrowStatement(node as sling.model.ThrowStatementNode)
+	func dumpInterfaceDeclaration(node as sling.model.InterfaceDeclarationNode)
+	func dumpPrintLineStatement(node as sling.model.PrintLineStatementNode)
+	func dumpPrintStatementForSushi(node as sling.model.PrintStatementNode)
+	func dumpConstructorDeclaration(node as sling.model.ConstructorDeclarationNode)
+	func dumpDestructorDeclaration(node as sling.model.DestructorDeclarationNode)
+	func dumpGoToStatement(node as sling.model.GoToLabelStatementNode)
+	func dumpLabeledStatement(node as sling.model.LabeledStatementNode, context as string)
+	func dumpMultipleVariableDeclaration(node as sling.model.MultipleVariableDeclarationNode)
+	func dumpStatement(node as sling.common.NodeObject, context as string)
+	func dumpModule(module as sling.common.CodeUnitNode) override
+	func dumpFile(file as sling.common.CodeFileNode) override
+	func getExcludeComments as bool #getterMethod
+	func setExcludeComments(v as bool) as sling.sushi.compiler.SushiLuaGenerator #setterMethod
+}

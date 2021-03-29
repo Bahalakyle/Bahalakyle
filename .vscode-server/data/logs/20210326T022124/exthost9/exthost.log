@@ -1,0 +1,13 @@
+[2021-03-26 06:44:34.869] [exthost] [info] extension host started
+[2021-03-26 06:44:35.359] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":true,"extensionId":{"value":"vscode.debug-auto-launch","_lower":"vscode.debug-auto-launch"},"activationEvent":"*"}
+[2021-03-26 06:44:35.359] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/kyle/.vscode-server/bin/2b9aebd5354a3629c3aba0a5f5df49f43d6689f8/extensions/debug-auto-launch/dist/extension
+[2021-03-26 06:44:35.368] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"extensionId":{"value":"vscode.github","_lower":"vscode.github"},"activationEvent":"*"}
+[2021-03-26 06:44:35.368] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/kyle/.vscode-server/bin/2b9aebd5354a3629c3aba0a5f5df49f43d6689f8/extensions/git/dist/main
+[2021-03-26 06:44:45.436] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":false,"extensionId":{"value":"vscode.emmet","_lower":"vscode.emmet"},"activationEvent":"onStartupFinished"}
+[2021-03-26 06:44:45.437] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/kyle/.vscode-server/bin/2b9aebd5354a3629c3aba0a5f5df49f43d6689f8/extensions/emmet/dist/node/emmetNodeMain
+[2021-03-26 06:44:45.456] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":false,"extensionId":{"value":"vscode.merge-conflict","_lower":"vscode.merge-conflict"},"activationEvent":"onStartupFinished"}
+[2021-03-26 06:44:45.456] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/kyle/.vscode-server/bin/2b9aebd5354a3629c3aba0a5f5df49f43d6689f8/extensions/merge-conflict/dist/mergeConflictMain
+[2021-03-26 06:44:45.463] [exthost] [info] ExtensionService#_doActivateExtension vscode.testing-editor-contributions {"startup":false,"extensionId":{"value":"vscode.testing-editor-contributions","_lower":"vscode.testing-editor-contributions"},"activationEvent":"onStartupFinished"}
+[2021-03-26 06:44:45.463] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/kyle/.vscode-server/bin/2b9aebd5354a3629c3aba0a5f5df49f43d6689f8/extensions/testing-editor-contributions/dist/extension.js
+[2021-03-26 07:11:26.152] [exthost] [info] extension host terminating: renderer disconnected for too long (2)
+[2021-03-26 07:11:27.155] [exthost] [info] exiting with code 0

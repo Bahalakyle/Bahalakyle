@@ -1,0 +1,36 @@
+class name jk.worker.WorkerPoolForSushi header extends jk.worker.WorkerPool public
+{
+	import jk.fs
+	import jk.env
+	import jk.log
+	import jk.thread
+	import jk.socket.io
+	import jk.lang
+	ctor
+	func getWorker as jk.thread.SushiThread
+	func onWorkerDone(worker as jk.thread.SushiThread)
+	func executeWorker(workertype as typeinfo, input as buffer, handler as function<void,buffer,int>) as bool
+}
+class name jk.worker.WorkerPool header abstract public
+{
+	import jk.log
+	import jk.lang
+	ctor
+	func forContext(ctx as jk.log.LoggingContext) as jk.worker.WorkerPool
+	func executeWorker(workertype as typeinfo, input as buffer, handler as function<void,buffer,int>) abstract as bool
+	func getCtx as jk.log.LoggingContext #getterMethod
+	func setCtx(v as jk.log.LoggingContext) as jk.worker.WorkerPool #setterMethod
+	func getMaxWorkers as int #getterMethod
+	func setMaxWorkers(v as int) as jk.worker.WorkerPool #setterMethod
+	func getMaxQueue as int #getterMethod
+	func setMaxQueue(v as int) as jk.worker.WorkerPool #setterMethod
+}
+class name jk.worker.Worker header public
+{
+	import jk.io
+	import jk.lang
+	import jk.thread
+	ctor
+	func getOutputWriter static as jk.io.Writer
+	func getInputBuffer static as buffer
+}

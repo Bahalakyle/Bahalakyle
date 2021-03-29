@@ -1,0 +1,408 @@
+class name jk.ui.ApplicationData header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.log
+	ctor
+	func getApplicationData(ctx as jk.ui.GuiApplicationContext) static as jk.fs.File
+	func retrieveFile(ctx as jk.ui.GuiApplicationContext, filename as string) static as jk.fs.File
+}
+class name jk.ui.WebBrowserContext header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.url
+	ctor
+	func getPageURL static as string
+	func getPageHash static as string
+	func getQueryString static as string
+	func getQueryStringValue(key as string) static as string
+}
+class name jk.ui.PointerEvent header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	ctor
+	var DOWN public static const as int
+	var MOVE public static const as int
+	var CANCEL public static const as int
+	var UP public static const as int
+	var pointerId public as int
+	var action public as int
+	var x public as double
+	var y public as double
+	var isConsumed public as bool
+	func consume
+	func getPointerId as int
+	func setPointerId(value as int) as jk.ui.PointerEvent
+	func getAction as int
+	func setAction(value as int) as jk.ui.PointerEvent
+	func getX as double
+	func setX(value as double) as jk.ui.PointerEvent
+	func getY as double
+	func setY(value as double) as jk.ui.PointerEvent
+	func isInside(xc as double, yc as double, width as double, height as double) as bool
+}
+class name jk.ui.ImageUtil header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.math
+	ctor
+	func createCircularImageSync(m as jk.gfx.Image) static as jk.gfx.Image
+	func createCircularImage(oimage as jk.gfx.Image, callback as function<void,jk.gfx.Image>) static
+}
+interface name jk.ui.ScreenWithContext header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	func setContext(ctx as jk.ui.GuiApplicationContext)
+	func getContext as jk.ui.GuiApplicationContext
+}
+class name jk.ui.Screen header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	ctor
+}
+class name jk.ui.HTMLDOM header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	ctor
+	func colorToRGBA(color as jk.gfx.Color) static as string
+	func isBrowser(id as string) static as bool
+	func isInternetExplorer static as bool
+	func isWebKit static as bool
+	func isFirefox static as bool
+	func isMobile static as bool
+	func isChrome static as bool
+	func isEdge static as bool
+	func isSafari static as bool
+	func createElement(type as string) static as object
+	func getDocument static as object
+	func getDocumentBody static as object
+	func getDocumentHead static as object
+	func getParentElement(element as object) static as object
+	func getElementById(id as string) static as object
+	func getElementById(element as object, id as string) static as object
+	func getElementsByClassName(element as object, classname as string) static as array
+	func getElementsByTagName(element as object, tagname as string) static as array
+	func appendChild(element as object, child as object) static
+	func appendToBody(element as object) static
+	func remove(element as object) static
+	func getFirstChild(element as object) static as object
+	func getChild(element as object, index as int) static as object
+	func getAttribute(element as object, attr as string) static as string
+	func setAttribute(element as object, attr as string, val as string) static
+	func getInnerHTML(element as object) static as string
+	func setInnerHTML(element as object, text as string) static
+	func getTextContent(element as object) static as string
+	func setTextContent(element as object, text as string) static
+	func setValue(element as object, val as string)
+	func getValue(element as object) static as string
+	func setStyle(element as object, key as string, val as string) static
+	func getStyle(element as object, key as string) static as string
+	func removeStyle(element as object, key as string) static
+	func addEventListener(element as object, event as string, listener as function<void>) static
+	func addEventListenerWithParameterInCallback(element as object, event as string, listener as function<void,object>) static
+	func getClassList(element as object) static as string
+	func addToClassList(element as object, xclass as string) static
+	func removeFromClassList(element as object, xclass as string) static
+	func setFocus(element as object) static
+	func createTextNode(text as string) static as object
+	func doesBrowserSupportFontLoading static as bool
+	func setFontFamily(element as object, fontFamily as string) static
+	func isFontStandard(fontFamily as string) static as bool
+}
+class name jk.ui.IOSDeviceInfo header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	ctor
+	func forDetails(id as string, name as string, dpi as int) static as jk.ui.IOSDeviceInfo
+	func toString as string
+	func getId as string #getterMethod
+	func setId(v as string) as jk.ui.IOSDeviceInfo #setterMethod
+	func getName as string #getterMethod
+	func setName(v as string) as jk.ui.IOSDeviceInfo #setterMethod
+	func getDpi as int #getterMethod
+	func setDpi(v as int) as jk.ui.IOSDeviceInfo #setterMethod
+	func getScale as double #getterMethod
+	func setScale(v as double) as jk.ui.IOSDeviceInfo #setterMethod
+	func getScreenWidth as int #getterMethod
+	func setScreenWidth(v as int) as jk.ui.IOSDeviceInfo #setterMethod
+	func getScreenHeight as int #getterMethod
+	func setScreenHeight(v as int) as jk.ui.IOSDeviceInfo #setterMethod
+}
+class name jk.ui.RenderingContextForHTMLCanvas header extends jk.render.RenderingContext public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.render
+	ctor
+	func forElement(element as object) static as jk.ui.RenderingContextForHTMLCanvas
+	func forContext(ctx as object) static as jk.ui.RenderingContextForHTMLCanvas
+	func setFillStyle(style as object) override
+	func setStrokeStyle(style as object) override
+	func setShadowColor(color as jk.gfx.Color) override
+	func setShadowBlur(blur as double) override
+	func setShadowOffsetX(offset as double) override
+	func setShadowOffsetY(offset as double) override
+	func createLinearGradient(x0 as double, y0 as double, x1 as double, y1 as double) override as object
+	func createPattern(image as jk.gfx.Image, repeat as int) override as object
+	func createRadialGradient(x0 as double, y0 as double, r0 as double, x1 as double, y1 as double, r1 as double) override as object
+	func addColorStop(gradient as object, index as double, color as jk.gfx.Color) override
+	func setLineCap(cap as int) override
+	func setLineJoin(join as int) override
+	func setLineWidth(width as double) override
+	func setMiterLimit(limit as double) override
+	func rect(x as double, y as double, width as double, height as double) override
+	func fillRect(x as double, y as double, width as double, height as double) override
+	func strokeRect(x as double, y as double, width as double, height as double) override
+	func clearRect(x as double, y as double, width as double, height as double) override
+	func fill override
+	func stroke override
+	func beginPath override
+	func moveTo(x as double, y as double) override
+	func closePath override
+	func lineTo(x as double, y as double) override
+	func clip override
+	func quadraticCurveTo(cpx as double, cpy as double, x as double, y as double) override
+	func bezierCurveTo(cp1x as double, cp1y as double, cp2x as double, cp2y as double, x as double, y as double) override
+	func arc(x as double, y as double, r as double, sAngle as double, eAngle as double, counterclockwise as bool) override
+	func arcTo(x1 as double, y1 as double, x2 as double, y2 as double, r as double) override
+	func isPointInPath(x as double, y as double) override as bool
+	func scale(scalewidth as double, scaleheight as double) override
+	func rotate(angle as double) override
+	func translate(x as double, y as double) override
+	func transform(a as double, b as double, c as double, d as double, e as double, f as double) override
+	func setTransform(a as double, b as double, c as double, d as double, e as double, f as double) override
+	func setFont(font as jk.gfx.FontDescription) override
+	func setTextAlign(align as int) override
+	func setTextBaseline(baseline as int) override
+	func fillText(text as string, x as double, y as double, maxWidth as double) override
+	func strokeText(text as string, x as double, y as double, maxWidth as double) override
+	func measureTextHeight(text as string) override as double
+	func measureTextWidth(text as string) override as double
+	func drawImage(img as jk.gfx.Image, x as double, y as double) override
+	func drawAndScaleImage(img as jk.gfx.Image, x as double, y as double, width as double, height as double) override
+	func drawAndProcessImage(img as jk.gfx.Image, sx as double, sy as double, swidth as double, sheight as double, x as double, y as double, width as double, height as double) override
+	func setGlobalAlpha(alpha as double) override
+	func save override
+	func restore override
+	func getCtx as object #getterMethod
+	func setCtx(v as object) as jk.ui.RenderingContextForHTMLCanvas #setterMethod
+}
+interface name jk.ui.RouterListener header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	func onRouteChanged(route as string)
+}
+class name jk.ui.GuiApplicationContextForHTML header extends jk.ui.GuiApplicationContextForBrowser public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	ctor
+}
+class name jk.ui.KeyEvent header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	ctor
+	var ACTION_NONE public static const as int
+	var ACTION_DOWN public static const as int
+	var ACTION_UP public static const as int
+	var KEY_NONE public static const as int
+	var KEY_SPACE public static const as int
+	var KEY_ENTER public static const as int
+	var KEY_TAB public static const as int
+	var KEY_ESCAPE public static const as int
+	var KEY_BACKSPACE public static const as int
+	var KEY_SHIFT public static const as int
+	var KEY_CONTROL public static const as int
+	var KEY_ALT public static const as int
+	var KEY_CAPSLOCK public static const as int
+	var KEY_NUMLOCK public static const as int
+	var KEY_LEFT public static const as int
+	var KEY_UP public static const as int
+	var KEY_RIGHT public static const as int
+	var KEY_DOWN public static const as int
+	var KEY_INSERT public static const as int
+	var KEY_DELETE public static const as int
+	var KEY_HOME public static const as int
+	var KEY_END public static const as int
+	var KEY_PAGEUP public static const as int
+	var KEY_PAGEDOWN public static const as int
+	var KEY_F1 public static const as int
+	var KEY_F2 public static const as int
+	var KEY_F3 public static const as int
+	var KEY_F4 public static const as int
+	var KEY_F5 public static const as int
+	var KEY_F6 public static const as int
+	var KEY_F7 public static const as int
+	var KEY_F8 public static const as int
+	var KEY_F9 public static const as int
+	var KEY_F10 public static const as int
+	var KEY_F11 public static const as int
+	var KEY_F12 public static const as int
+	var KEY_SUPER public static const as int
+	var KEY_BACK public static const as int
+	var isConsumed public as bool
+	func consume
+	func isKeyPress(key as int) as bool
+	func isKey(key as int) as bool
+	func isString(value as string) as bool
+	func isCharacter(value as char) as bool
+	func clear
+	func getAction as int #getterMethod
+	func setAction(v as int) as jk.ui.KeyEvent #setterMethod
+	func getKeyCode as int #getterMethod
+	func setKeyCode(v as int) as jk.ui.KeyEvent #setterMethod
+	func getStringValue as string #getterMethod
+	func setStringValue(v as string) as jk.ui.KeyEvent #setterMethod
+	func getShift as bool #getterMethod
+	func setShift(v as bool) as jk.ui.KeyEvent #setterMethod
+	func getControl as bool #getterMethod
+	func setControl(v as bool) as jk.ui.KeyEvent #setterMethod
+	func getCommand as bool #getterMethod
+	func setCommand(v as bool) as jk.ui.KeyEvent #setterMethod
+	func getAlt as bool #getterMethod
+	func setAlt(v as bool) as jk.ui.KeyEvent #setterMethod
+}
+class name jk.ui.Router header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.url
+	ctor
+	func onHashChanged static
+	func initialize(l as jk.ui.RouterListener) static
+	func goToDefault static
+	func go(route as string) static
+}
+class name jk.ui.ImageForBrowser header extends jk.gfx.Image public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.base64
+	ctor
+	var image public as object
+	func getSource as string
+	func getPixelWidth override as int
+	func getPixelHeight override as int
+	func scaleToSizeSync(w as int, h as int) override as jk.gfx.Image
+	func scaleToSize(w as int, h as int, callback as function<void,jk.gfx.Image>) override
+	func scaleToWidthSync(w as int) override as jk.gfx.Image
+	func scaleToWidth(w as int, callback as function<void,jk.gfx.Image>) override
+	func scaleToHeightSync(h as int) override as jk.gfx.Image
+	func scaleToHeight(h as int, callback as function<void,jk.gfx.Image>) override
+	func cropSync(x as int, y as int, w as int, h as int) override as jk.gfx.Image
+	func crop(x as int, y as int, w as int, h as int, callback as function<void,jk.gfx.Image>) override
+	func toJPGData override as buffer
+	func toPNGData override as buffer
+	func toRGBAData override as buffer
+	func releaseImage override
+}
+interface name jk.ui.PointerListener header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	func onPointerEvent(event as jk.ui.PointerEvent) as bool
+}
+interface name jk.ui.KeyListener header public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	func onKeyEvent(event as jk.ui.KeyEvent)
+}
+class name jk.ui.GuiApplicationContext header implements jk.app.ApplicationContext implements jk.lang.EventLoop abstract public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.app
+	import jk.thread
+	ctor
+	interface name TimerObject header public static
+	{
+		func cancel
+	}
+	func setStyle(id as string, style as map)
+	func getStyle(id as string) as map
+	func getStyleObject(id as string, style as string) as object
+	func getStyleString(id as string, style as string, defval as string = null) as string
+	func getStyleColor(id as string, style as string, defval as string = null) as jk.gfx.Color
+	func getStylePixels(id as string, style as string, defval as string = null) as int
+	func getApplicationDataDirectory abstract as jk.fs.File
+	func getResourceImage(id as string) abstract as jk.gfx.Image
+	func getImageForBufferSync(buffer as buffer, mimeType as string) abstract as jk.gfx.Image
+	func getImageForBuffer(buffer as buffer, mimeType as string, callback as function<void,jk.gfx.Image>) abstract
+	func showMessageDialog(title as string, message as string, callback as function<void> = null) abstract
+	func showConfirmDialog(title as string, message as string, okcallback as function<void>, cancelcallback as function<void>) abstract
+	func showErrorDialog(message as string, callback as function<void> = null) abstract
+	func getScreenTopMargin abstract as int
+	func getScreenWidth abstract as int
+	func getScreenHeight abstract as int
+	func getScreenDensity abstract as int
+	func getHeightValue(spec as string) abstract as int
+	func getWidthValue(spec as string) abstract as int
+	func startTimer(timeout as long, callback as function<void>) abstract as jk.ui.GuiApplicationContext.TimerObject
+	func enableKeepAwakeMode abstract
+	func disableKeepAwakeMode abstract
+	func px(spec as string) as int
+	func logError(message as string)
+	func logWarning(message as string)
+	func logInfo(message as string)
+	func logDebug(message as string)
+	func logStatus(message as string)
+	func isInDebugMode as bool
+	func getErrorCount as int
+	func getWarningCount as int
+	func getInfoCount as int
+	func getDebugCount as int
+	func resetCounters
+	func runScheduled(timeout as long, runnable as jk.lang.Runnable)
+	func runInBackground(runnable as jk.lang.Runnable)
+}
+class name jk.ui.GuiApplicationContextForBrowser header extends jk.ui.GuiApplicationContext public
+{
+	import jk.fs
+	import jk.gfx
+	import jk.lang
+	import jk.base64
+	ctor
+	func getInstance static as jk.ui.GuiApplicationContextForBrowser
+	func clearResources
+	func prepareResources(resources as array<string>, callback as function<void>)
+	func getResourceImage(id as string) override as jk.gfx.Image
+	func getImageForBufferSync(buffer as buffer, mimeType as string) override as jk.gfx.Image
+	func getImageForBuffer(buffer as buffer, mimeType as string, callback as function<void,jk.gfx.Image>) override
+	func showConfirmDialog(title as string, message as string, okcallback as function<void>, cancelcallback as function<void>) override
+	func showMessageDialog(title as string, message as string, callback as function<void> = null) override
+	func showErrorDialog(message as string, callback as function<void> = null) override
+	func getScreenTopMargin override as int
+	func getScreenWidth override as int
+	func getScreenHeight override as int
+	func getScreenDensity override as int
+	func getHeightValue(spec as string) override as int
+	func getWidthValue(spec as string) override as int
+	func startTimer(timeout as long, callback as function<void>) override as jk.ui.GuiApplicationContext.TimerObject
+}

@@ -1,0 +1,468 @@
+class name sling.js.model.DestructuredParameterDeclarationNode header extends sling.model.ExpressionNode implements sling.model.NodeWithModifiers public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func forBinding(value as sling.model.ExpressionNode) static as sling.js.model.DestructuredParameterDeclarationNode
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setBinding(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getBinding as sling.model.ExpressionNode
+	func exportBinding as sling.model.ExpressionNode
+	func setInitializer(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getInitializer as sling.model.ExpressionNode
+	func exportInitializer as sling.model.ExpressionNode
+	func setModifiers(v as vector, doExport as bool = false)
+	func getModifiers as vector
+	func exportModifiers as vector
+	func addToModifiers(v as sling.common.NodeObject)
+	func clearModifiers
+}
+class name sling.js.model.DebuggerStatementNode header extends sling.common.NodeObject public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.ExportDeclarationStatementNode header extends sling.js.model.ExportStatementNode implements sling.model.NodeWithModifiers public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setDeclaration(v as sling.common.NodeObject, doExport as bool = false)
+	func getDeclaration as sling.common.NodeObject
+	func exportDeclaration as sling.common.NodeObject
+	func setModifiers(v as vector, doExport as bool = false)
+	func getModifiers as vector
+	func exportModifiers as vector
+	func addToModifiers(v as sling.common.NodeObject)
+	func clearModifiers
+}
+class name sling.js.model.ExportAllStaticMembersStatementNode header extends sling.js.model.ExportStatementNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setContainer(v as sling.model.SymbolNode, doExport as bool = false)
+	func getContainer as sling.model.SymbolNode
+	func exportContainer as sling.model.SymbolNode
+}
+class name sling.js.model.JavascriptImportStatementNode header extends sling.common.NodeObject public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setDefaultExport(v as string)
+	func getDefaultExport as string
+	func setExportName(v as string)
+	func getExportName as string
+	func setNamespaceContainer(v as string)
+	func getNamespaceContainer as string
+	func setModuleName(v as string)
+	func getModuleName as string
+}
+class name sling.js.model.YieldToGeneratorExpressionNode header extends sling.model.UnaryExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.PropertyFunctionDeclarationNode header extends sling.model.FunctionDeclarationBaseNode implements sling.common.NamedNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	var DIRECTION_DEF const public static as int
+	var DIRECTION_GET const public static as int
+	var DIRECTION_SET const public static as int
+	var DIRECTION_LET const public static as int
+	func forName(name as string) static as sling.js.model.PropertyFunctionDeclarationNode
+	func forExpression(exp as sling.model.ExpressionNode) static as sling.js.model.PropertyFunctionDeclarationNode
+	func getNodeName as string
+	func renameNode(name as string)
+	func setName(name as string)
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setReturnType(v as sling.common.DataTypeNode, doExport as bool = false)
+	func getReturnType as sling.common.DataTypeNode
+	func exportReturnType as sling.common.DataTypeNode
+	func setExpression(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getExpression as sling.model.ExpressionNode
+	func exportExpression as sling.model.ExpressionNode
+	func setDirection(v as int)
+	func getDirection as int
+	func getName as string
+}
+class name sling.js.model.JSModifier header public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	var HOIST const public static as string
+	var GENERATOR const public static as string
+	var AWAIT const public static as string
+	var OPTIONAL const public static as string
+	var DEFAULT const public static as string
+}
+class name sling.js.model.ImportExpressionStatementNode header extends sling.model.ImportStatementNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setExpression(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getExpression as sling.model.ExpressionNode
+	func exportExpression as sling.model.ExpressionNode
+}
+class name sling.js.model.HTMLUnitSettingsNode header extends sling.common.CodeUnitSettingsNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setProjectName(v as string)
+	func getProjectName as string
+	func setProjectVersion(v as string)
+	func getProjectVersion as string
+	func setDisplayName(v as string)
+	func getDisplayName as string
+}
+class name sling.js.model.NpmCodeUnitSettingsNode header extends sling.common.CodeUnitSettingsNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setPackageJson(v as jk.lang.DynamicMap)
+	func getPackageJson as jk.lang.DynamicMap
+	func setAngularJson(v as jk.lang.DynamicMap)
+	func getAngularJson as jk.lang.DynamicMap
+	func setTsconfigJson(v as jk.lang.DynamicMap)
+	func getTsconfigJson as jk.lang.DynamicMap
+	func setTslintJson(v as jk.lang.DynamicMap)
+	func getTslintJson as jk.lang.DynamicMap
+}
+class name sling.js.model.ExportStatementNode header extends sling.common.NodeObject abstract public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.ClassDeclarationExpressionNode header extends sling.model.ExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func forDeclaration(decl as sling.model.ClassDeclarationNode) static as sling.js.model.ClassDeclarationExpressionNode
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setDeclaration(v as sling.model.ClassDeclarationNode, doExport as bool = false)
+	func getDeclaration as sling.model.ClassDeclarationNode
+	func exportDeclaration as sling.model.ClassDeclarationNode
+}
+class name sling.js.model.JavascriptFunctionDeclarationExpressionNode header extends sling.model.ExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func forDeclaration(decl as sling.model.FunctionDeclarationNode) static as sling.js.model.JavascriptFunctionDeclarationExpressionNode
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setDeclaration(v as sling.model.FunctionDeclarationNode, doExport as bool = false)
+	func getDeclaration as sling.model.FunctionDeclarationNode
+	func exportDeclaration as sling.model.FunctionDeclarationNode
+	func setType(v as sling.common.DataTypeNode, doExport as bool = false)
+	func getType as sling.common.DataTypeNode
+	func exportType as sling.common.DataTypeNode
+}
+class name sling.js.model.DeleteExpressionNode header extends sling.model.UnaryExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.VoidExpressionNode header extends sling.model.UnaryExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.SpreadExpressionNode header extends sling.model.UnaryExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func forExpression(expression as sling.model.ExpressionNode) static as sling.js.model.SpreadExpressionNode
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.PipeExpressionNode header extends sling.model.BinaryExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func instance(left as sling.model.ExpressionNode, right as sling.model.ExpressionNode) static as sling.js.model.PipeExpressionNode
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.DestructuredVariableDeclarationNode header extends sling.common.NodeObject implements sling.model.NodeWithModifiers public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func forExpression(expression as sling.model.ExpressionNode, initializer as sling.model.ExpressionNode, type as sling.common.DataTypeNode = null) static as sling.js.model.DestructuredVariableDeclarationNode
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setExpression(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getExpression as sling.model.ExpressionNode
+	func exportExpression as sling.model.ExpressionNode
+	func setInitializer(v as sling.model.ExpressionNode, doExport as bool = false)
+	func getInitializer as sling.model.ExpressionNode
+	func exportInitializer as sling.model.ExpressionNode
+	func setType(v as sling.common.DataTypeNode, doExport as bool = false)
+	func getType as sling.common.DataTypeNode
+	func exportType as sling.common.DataTypeNode
+	func setModifiers(v as vector, doExport as bool = false)
+	func getModifiers as vector
+	func exportModifiers as vector
+	func addToModifiers(v as sling.common.NodeObject)
+	func clearModifiers
+}
+class name sling.js.model.RegularExpressionLiteralExpressionNode header extends sling.model.LiteralExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	func forValue(value as string) static as sling.js.model.RegularExpressionLiteralExpressionNode
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setValue(v as string)
+	func getValue as string
+	func setRegexFlag(v as string)
+	func getRegexFlag as string
+}
+class name sling.js.model.ObjectLiteralExpressionNode header extends sling.model.LiteralExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setValues(v as vector, doExport as bool = false)
+	func getValues as vector
+	func exportValues as vector
+	func addToValues(v as sling.common.NodeObject)
+	func clearValues
+}
+class name sling.js.model.NumberDataTypeNode header extends sling.model.PrimitiveDataTypeNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.UndefinedDataTypeNode header extends sling.common.DataTypeNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+}
+class name sling.js.model.ImportMultipleStaticMembersStatementNode header extends sling.model.ImportStatementNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	var TYPE_UNKNOWN const public static as int
+	var TYPE_FUNCTION const public static as int
+	var TYPE_CONSTANT const public static as int
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setContainer(v as sling.model.SymbolNode, doExport as bool = false)
+	func getContainer as sling.model.SymbolNode
+	func exportContainer as sling.model.SymbolNode
+	func setDefaultExport(v as string)
+	func getDefaultExport as string
+	func setType(v as int)
+	func getType as int
+	func setMembers(v as vector, doExport as bool = false)
+	func getMembers as vector
+	func exportMembers as vector
+	func addToMembers(v as sling.model.ImportEntityStatementNode)
+	func clearMembers
+}
+class name sling.js.model.ExportMultipleStaticMembersStatementNode header extends sling.js.model.ExportStatementNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setContainer(v as sling.model.SymbolNode, doExport as bool = false)
+	func getContainer as sling.model.SymbolNode
+	func exportContainer as sling.model.SymbolNode
+	func setMembers(v as vector, doExport as bool = false)
+	func getMembers as vector
+	func exportMembers as vector
+	func addToMembers(v as sling.model.SymbolNode)
+	func clearMembers
+}
+class name sling.js.model.TemplateLiteralExpressionNode header extends sling.model.LiteralExpressionNode public
+{
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func forValue(value as string) static as sling.js.model.TemplateLiteralExpressionNode
+	func getNodeTypeName override as string
+	func createNew override as sling.common.NodeObject
+	func copyTo(o as sling.common.NodeObject) override as bool
+	func replaceChild(oldnode as sling.common.NodeObject, newnode as sling.common.NodeObject, doExport as bool) override as bool
+	func acceptVisitor(visitor as sling.common.NodeVisitor) override as bool
+	func destroy override
+	func setValue(v as string)
+	func getValue as string
+	func setTag(v as sling.model.ReferenceDataTypeNode)
+	func getTag as sling.model.ReferenceDataTypeNode
+}

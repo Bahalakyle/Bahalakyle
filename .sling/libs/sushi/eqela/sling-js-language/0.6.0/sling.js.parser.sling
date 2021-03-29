@@ -1,0 +1,114 @@
+class name sling.js.parser.JSParser header extends sling.common.CodeParser public
+{
+	import sling.util
+	import sling.common
+	import sling.model
+	import sling.js.model
+	import jk.lang
+	ctor
+	var CONTEXT_COMMON const public static as int
+	var CONTEXT_BLOCK_SCOPE const public static as int
+	var CONTEXT_TOP_LEVEL const public static as int
+	func acceptEndOfFile as sling.common.Token
+	func isValidIdentifierPrefix(c as char) override as bool
+	func isValidIdentifierCharacter(c as char) override as bool
+	func acceptModifiers(annotationOnly as bool = false) as vector
+	func acceptModifier as string
+	func acceptAnnotationModifier as sling.model.AnnotationModifierNode
+	func acceptStringLiteralExpression as sling.model.StringLiteralExpressionNode
+	func acceptTemplateLiteral as sling.js.model.TemplateLiteralExpressionNode
+	func acceptImmediateCommentToken override as sling.common.Token
+	func cleanComment(comment as string) static as string
+	func acceptComment as sling.model.CommentNode
+	func parseStringLiteralExpression as sling.model.StringLiteralExpressionNode
+	func acceptReferenceDataType as sling.model.ReferenceDataTypeNode
+	func acceptFunctionDataType as sling.model.FunctionDataTypeNode
+	func parseReferenceDataType as sling.model.ReferenceDataTypeNode
+	func acceptPrimaryDataType as sling.common.DataTypeNode
+	func acceptArrayDataType as sling.common.DataTypeNode
+	func acceptDataType as sling.common.DataTypeNode
+	func parseDataType as sling.common.DataTypeNode
+	func acceptDeclarationDataType(defaultToAutomatic as bool = true) as sling.common.DataTypeNode
+	func acceptSymbolExpression as sling.model.SymbolExpressionNode
+	func parseSymbolExpression as sling.model.SymbolExpressionNode
+	func acceptExpressions20 as sling.model.ExpressionNode
+	func getReservedWords as jk.lang.StringSet
+	func isReservedWord(name as string) as bool
+	func acceptCreateObjectExpression as sling.model.CreateObjectExpressionNode
+	func acceptObjectLiteralExpression as sling.js.model.ObjectLiteralExpressionNode
+	func acceptObjectLiteralValueExpression as sling.model.KeyValueNode
+	func acceptStatementForObjectLiteral as sling.common.NodeObject
+	func acceptNumberLiteralExpression as sling.model.LiteralExpressionNode
+	func acceptNullLiteralExpression as sling.model.NullLiteralExpressionNode
+	func acceptBooleanLiteralExpression as sling.model.BooleanLiteralExpressionNode
+	func acceptVariableDeclarationStatement(currentContext as int, requiredSemiColon as bool = false) as sling.common.NodeObject
+	func acceptClassDeclarationExpressionNode as sling.js.model.ClassDeclarationExpressionNode
+	func acceptLeftHandSideExpression as sling.model.ExpressionNode
+	func acceptArrayLiteralExpression as sling.model.ArrayLiteralExpressionNode
+	func acceptForStatement as sling.model.ForStatementNode
+	func acceptEnumDeclaration as sling.model.EnumDeclarationNode
+	func acceptImmediateSlashSlashCommentToken override as sling.common.Token
+	func acceptExpression(acceptCommaOperator as bool = false) as sling.model.ExpressionNode
+	func parseExpression(acceptCommaOperator as bool = false) as sling.model.ExpressionNode
+	func acceptImportStatement as sling.model.ImportStatementNode
+	func acceptExportStatement as sling.js.model.ExportStatementNode
+	func acceptLabeledStatement as sling.model.LabeledStatementNode
+	func acceptFunctionDeclarationParameters(isArrowParameter as bool = false) as vector
+	func acceptDestructuredVariableDeclarationStatement(requiredSemiColon as bool) as sling.js.model.DestructuredVariableDeclarationNode
+	func parseArrayLiteralExpression as sling.model.ArrayLiteralExpressionNode
+	func parseObjectLiteralExpression as sling.js.model.ObjectLiteralExpressionNode
+	func acceptRegularExpressionLiteralExpression as sling.js.model.RegularExpressionLiteralExpressionNode
+	func isValidRegexFlag(c as char) as bool
+	func nextCharIsNotEqualTo(char as char) as bool
+	func acceptArrowFunctionDeclarationExpression as sling.model.FunctionDeclarationExpressionNode
+	func acceptFunctionDeclarationExpression as sling.js.model.JavascriptFunctionDeclarationExpressionNode
+	func acceptFunctionDeclarationStatement as sling.model.FunctionDeclarationNode
+	func acceptConstructorDeclaration as sling.model.ConstructorDeclarationNode
+	func acceptPropertyName as sling.model.ExpressionNode
+	func acceptPropertyFunctionDeclaration(forInterface as bool = false) as sling.js.model.PropertyFunctionDeclarationNode
+	func acceptPropertyVariableDeclaration as sling.model.VariableDeclarationNode
+	func acceptClassDeclaration(isExportDeclaration as bool = false) as sling.model.ClassDeclarationNode
+	func acceptInterfaceDeclaration as sling.model.InterfaceDeclarationNode
+	func acceptGenericTypes as vector
+	func acceptClassBody as sling.common.NodeObject
+	func parseBlockOrStatement as sling.model.BlockNode
+	func acceptIfStatement as sling.model.IfStatementNode
+	func acceptBlock as sling.model.BlockNode
+	func acceptContinueStatement as sling.common.NodeObject
+	func acceptDebuggerStatement as sling.js.model.DebuggerStatementNode
+	func acceptWhileStatement as sling.model.WhileStatementNode
+	func acceptDoWhileStatement as sling.model.DoWhileStatementNode
+	func acceptWithStatement as sling.model.WithStatementNode
+	func acceptBreakStatement as sling.common.NodeObject
+	func acceptThrowStatement as sling.model.ThrowStatementNode
+	func acceptTryCatchStatement as sling.model.TryCatchStatementNode
+	func acceptForEachStatement as sling.model.ForEachStatementNode
+	func acceptSwitchStatement as sling.model.SwitchStatementNode
+	func acceptReturnStatement as sling.model.ReturnStatementNode
+	func acceptTypeAliasDeclarationStatement as sling.model.TypeAliasDeclarationNode
+	func parseBlock as sling.model.BlockNode
+	func parseStatement(currentContext as int = sling.js.parser.JSParser.CONTEXT_COMMON) as sling.common.NodeObject
+	func acceptEmptyStatement as sling.model.EmptyStatementNode
+	func acceptStatement(currentContext as int = sling.js.parser.JSParser.CONTEXT_COMMON) as sling.common.NodeObject
+	func parse override as sling.common.CodeFileNode
+	func parseStringAsExpression(str as string, withAngularPiping as bool = false) static as sling.model.ExpressionNode
+	func getSupportTypeScript as bool #getterMethod
+	func setSupportTypeScript(v as bool) as sling.js.parser.JSParser #setterMethod
+	func getAcceptAngularPiping as bool #getterMethod
+	func setAcceptAngularPiping(v as bool) as sling.js.parser.JSParser #setterMethod
+}
+class name sling.js.parser.UnicodeCharacter header public
+{
+	import jk.lang
+	ctor
+	func isIDStartCharacter(c as char) static as bool
+	func isIDContinueCharacter(c as char) static as bool
+	func isLetterCombined(c as char) static as bool
+	func isOtherLetter(c as char) static as bool
+	func isLetterNumber(c as char) static as bool
+	func isModifierLetter(c as char) static as bool
+	func isNonSpacingMark(c as char) static as bool
+	func isSpacingCombiningMark(c as char) static as bool
+	func isDecimalDigitNumber(c as char) static as bool
+	func isConnectorPunctuation(c as char) static as bool
+}

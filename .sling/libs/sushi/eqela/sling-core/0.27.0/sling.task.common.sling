@@ -1,0 +1,67 @@
+class name sling.task.common.ImportCodeFilesTask header extends sling.task.CodeFileTask public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.generator
+	import sling.task
+	import jk.lang
+	ctor
+	property removeOriginal as bool { hasset hasget }
+	property outputFiles as vector<jk.fs.File> { hasset hasget }
+	func configureValue(key as string, value as object) override
+	func readAndTransform(file as jk.fs.File) as sling.common.CodeFileNode
+	func importToFile(file as jk.fs.File, outputDir as jk.fs.File) as vector<jk.fs.File>
+	func executeForFile(file as jk.fs.File) override
+}
+class name sling.task.common.ParseCodeFilesTask header extends sling.task.CodeFileTask public
+{
+	import jk.fs
+	import jk.log
+	import sling.task
+	import jk.lang
+	ctor
+	func executeForFile(file as jk.fs.File) override
+}
+class name sling.task.common.SlingLintTask header extends sling.task.SlingFileEditorTask public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.task
+	import jk.lang
+	ctor
+	func processSlingCodeTree(tree as sling.common.CodeFileNode) override
+}
+class name sling.task.common.ValidateCodeFilesTask header extends sling.task.CodeFileTask public
+{
+	import jk.fs
+	import jk.log
+	import jk.diff
+	import sling.common
+	import sling.task
+	import jk.lang
+	ctor
+	func executeForFile(file as jk.fs.File) override
+}
+class name sling.task.common.SlingFindTask header extends sling.task.FileTask public
+{
+	import jk.fs
+	import jk.log
+	import sling.task
+	import jk.lang
+	ctor
+	func executeForFile(file as jk.fs.File) override
+}
+class name sling.task.common.SlingCleanTask header extends sling.task.SlingFileEditorTask public
+{
+	import jk.fs
+	import jk.log
+	import sling.util
+	import sling.model
+	import sling.common
+	import sling.task
+	import jk.lang
+	ctor
+	func processSlingCodeTree(tree as sling.common.CodeFileNode) override
+}

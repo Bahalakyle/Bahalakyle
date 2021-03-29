@@ -1,0 +1,47 @@
+class name sling.steps.SlingStepsMain header public
+{
+	import jk.lang
+	import jk.fs
+	import jk.log
+	import jk.env
+	import jk.console
+	property ctx as jk.log.LoggingContext { hasset hasget }
+	property directory as jk.fs.File { hasset hasget }
+	ctor
+	ctor(ctx as jk.log.LoggingContext)
+	func registerCommand(cmd as string, handler as function<void,jk.console.ArgumentVector>)
+	func executeTasks(tasks as sling.steps.SlingStepsTaskList)
+	func executeCommand(cmd as string, args as jk.console.ArgumentVector)
+	func translateError(e as jk.lang.Error) as string
+	func execute(args as array<string>) as int
+	func executeScript(args as array<string>) as int
+}
+class name sling.steps.SlingStepsTaskList header extends sling.steps.SlingStepsTask public
+{
+	import jk.lang
+	import jk.log
+	ctor
+	property tasks as vector<sling.steps.SlingStepsTask> { hasset hasget }
+	func forName(name as string) static as sling.steps.SlingStepsTaskList
+	func hasTasks as bool
+	func addTask(task as sling.steps.SlingStepsTask)
+	func addFunction(handler as function<void>)
+	func execute(ctx as jk.log.LoggingContext) override
+}
+class name sling.steps.SlingStepsTask header abstract public
+{
+	import jk.lang
+	import jk.log
+	ctor
+	property name as string { hasset hasget }
+	property options as jk.lang.DynamicMap { hasset hasget }
+	func execute(ctx as jk.log.LoggingContext) abstract
+}
+class name sling.steps.SlingStepsFunctionTask header extends sling.steps.SlingStepsTask public
+{
+	import jk.lang
+	import jk.log
+	ctor
+	func forFunction(handler as function<void>) static as sling.steps.SlingStepsFunctionTask
+	func execute(ctx as jk.log.LoggingContext) override
+}

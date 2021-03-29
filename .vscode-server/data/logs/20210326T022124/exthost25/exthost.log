@@ -1,0 +1,3 @@
+[2021-03-26 08:25:51.089] [exthost] [info] extension host started
+[2021-03-26 08:39:52.512] [exthost] [info] extension host terminating: received terminate message from renderer
+[2021-03-26 08:39:53.514] [exthost] [info] exiting with code 0

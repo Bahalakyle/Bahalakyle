@@ -1,0 +1,26 @@
+interface name jk.fcm.FCMWebPushListener header public
+{
+	import jk.lang
+	func onFCMTokenReceived(fcmToken as string)
+}
+class name jk.fcm.FCMWebPush header public
+{
+	import jk.lang
+	import jk.ui
+	import jk.json
+	import jk.widget
+	ctor
+	func onMessage(data as string) static
+	func onFCMTokenReceived(newToken as string) static
+	func getFcmPublicVapidKey static as string
+	func initialize(key as string, sc as jk.widget.ScreenForWidget, l as jk.fcm.FCMWebPushListener) static
+	func isBrowserSupported static as bool
+	func isNotificationPermissionAllowed static as bool
+}
+class name jk.fcm.FCMTokenManager header public
+{
+	import jk.lang
+	ctor
+	func onNewFCMToken(newToken as string) static
+	func checkForToken static as string
+}

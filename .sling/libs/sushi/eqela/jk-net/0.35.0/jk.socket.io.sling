@@ -1,0 +1,46 @@
+interface name jk.socket.io.IOManagerEntry header public
+{
+	import jk.lang
+	func setListeners(rrl as function<void>, wrl as function<void>) as bool
+	func setReadListener(rrl as function<void>) as bool
+	func setWriteListener(wrl as function<void>) as bool
+	func remove as bool
+}
+interface name jk.socket.io.IOManagerTimer header public
+{
+	import jk.lang
+	func stop
+}
+class name jk.socket.io.IOManagerForSushi header extends jk.socket.io.IOManager public
+{
+	import jk.log
+	import jk.io
+	import jk.posix
+	import jk.lang
+	ctor
+	func close
+	func doExecute(ctx as jk.log.LoggingContext) override as bool
+	func stop override
+	func isRunning as bool
+	func add(o as object) override as jk.socket.io.IOManagerEntry
+	func startTimer(delay as long, handler as function<bool>) override as jk.socket.io.IOManagerTimer
+}
+class name jk.socket.io.IOManager header implements jk.lang.EventLoop abstract public
+{
+	import jk.log
+	import jk.thread
+	import jk.lang
+	ctor
+	func createDefault static as jk.socket.io.IOManager
+	func setCurrent(iomgr as jk.socket.io.IOManager) static
+	func getCurrent static as jk.socket.io.IOManager
+	func addWithReadListener(o as object, rrl as function<void>) virtual as jk.socket.io.IOManagerEntry
+	func addWithWriteListener(o as object, wrl as function<void>) virtual as jk.socket.io.IOManagerEntry
+	func execute(ctx as jk.log.LoggingContext) as bool
+	func add(o as object) abstract as jk.socket.io.IOManagerEntry
+	func startTimer(delay as long, handler as function<bool>) abstract as jk.socket.io.IOManagerTimer
+	func stop abstract
+	func doExecute(ctx as jk.log.LoggingContext) abstract as bool
+	func runScheduled(timeout as long, runnable as jk.lang.Runnable)
+	func runInBackground(runnable as jk.lang.Runnable)
+}

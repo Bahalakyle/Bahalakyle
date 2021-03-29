@@ -1,0 +1,195 @@
+class name sling.parser.PlingParser header extends sling.common.LiveTokenizingParser public
+{
+	import jk.fs
+	import jk.log
+	import jk.json
+	import jk.slon
+	import sling.common
+	import sling.model
+	import sling.model.ext
+	import jk.lang
+	ctor
+	ctor(ctx as jk.log.LoggingContext)
+	func acceptImmediateCommentToken override as sling.common.Token
+	func isValidIdentifierPrefix(c as char) override as bool
+	func isValidIdentifierCharacter(c as char) override as bool
+	func isSpaceCharacter(n as char) override as bool
+	func acceptNewLine as bool
+	func acceptMultipleNewLine
+	func acceptIndex as string
+	func parseOperator as string
+	func acceptStringLiteral as string
+	func parseStringLiteral as string
+	func acceptList as vector
+	func acceptMap as jk.lang.DynamicMap
+	func acceptValue as object
+	func parseValue as object
+	func parseConfiguration as jk.lang.DynamicMap
+	func parseFileAsMap(file as jk.fs.File) as jk.lang.DynamicMap
+	func parseFileAsUnitSettings(file as jk.fs.File, baseOptions as jk.lang.DynamicMap, customOptions as jk.lang.DynamicMap) as sling.model.ext.NSlingUnitSettings
+	func createSettings as sling.model.ext.NSlingUnitSettings
+	func createSettingsForMap(data as jk.lang.DynamicMap) as sling.model.ext.NSlingUnitSettings
+}
+class name sling.parser.SlingParserUtil header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import jk.lang
+	ctor
+	func parseString(ctx as jk.log.LoggingContext, program as string, filename as string) static as sling.common.CodeFileNode
+	func parseFile(ctx as jk.log.LoggingContext, program as jk.fs.File) static as sling.common.CodeFileNode
+	func cleanComment(comment as string) static as string
+}
+class name sling.parser.SlingParser header extends sling.common.CodeParser public
+{
+	import jk.fs
+	import jk.json
+	import sling.util
+	import sling.common
+	import sling.model
+	import sling.model.ext
+	import jk.lang
+	var NODECONTEXT_ENTITY const public static as int
+	var NODECONTEXT_NAMESPACE const public static as int
+	var NODECONTEXT_STATEMENTBLOCK const public static as int
+	var NODECONTEXT_FILE const public static as int
+	ctor
+	macro UPDATE_DESCRIPTION(o, desc)
+	{
+		if String.isEmpty(o.getDescription()):
+			o.setDescription(desc)
+	}
+	func getReservedWords as jk.lang.StringSet
+	func isReservedWord(name as string) as bool
+	func doAcceptNewlineToken(acceptSeveral as bool) as sling.common.Token
+	func doParseNewlineToken(acceptSeveral as bool) as sling.common.Token
+	func onUnnecessaryEmptyLine(token as sling.common.Token)
+	func acceptUnnecessaryNewlineToken as sling.common.Token
+	func acceptNewlineToken as sling.common.Token
+	func parseNewlineToken as sling.common.Token
+	func acceptMultipleNewlineTokens as sling.common.Token
+	func isSpaceCharacter(n as char) override as bool
+	func isValidIdentifierPrefix(c as char) override as bool
+	func isValidIdentifierCharacter(c as char) override as bool
+	func isValidIdentifier(t as string) override as bool
+	func acceptDocumentationCommentToken virtual as sling.common.Token
+	func acceptMultilineStringToken virtual as sling.common.Token
+	func acceptTripleBraceBlockToken virtual as sling.common.Token
+	func popEntity as sling.model.EntityDeclarationNode
+	func peekEntity as sling.model.EntityDeclarationNode
+	func validateForReservedWords(token as sling.common.Token)
+	func acceptDeclarationIdentifier as string
+	func parseDeclarationIdentifier as string
+	func acceptEndOfStatementToken as sling.common.Token
+	func parseEndOfStatementToken as sling.common.Token
+	func acceptSemicolonToken as sling.common.Token
+	func getCurrentFileId override as string
+	func getCurrentFileIdComplete as string
+	func createVariableArgumentsDeclaration(node as sling.common.NodeObject) as sling.model.VariableArgumentsDeclarationNode
+	func acceptStringLiteralExpression(acceptModifiers as bool = true) as sling.model.StringLiteralExpressionNode
+	func parseStringLiteralExpression(acceptModifiers as bool = true) as sling.model.StringLiteralExpressionNode
+	func acceptBooleanLiteralExpression as sling.model.BooleanLiteralExpressionNode
+	func acceptNullLiteralExpression as sling.model.NullLiteralExpressionNode
+	func acceptFailureLiteralExpression as sling.model.FailureLiteralExpressionNode
+	func acceptCharacterLiteralExpression as sling.model.CharacterLiteralExpressionNode
+	func acceptIntegerLiteralExpression as sling.model.IntegerLiteralExpressionNode
+	func acceptNumberLiteralExpression as sling.model.LiteralExpressionNode
+	func acceptPromiseLiteralExpression as sling.model.PromiseLiteralExpressionNode
+	func acceptLiteralExpression as sling.model.LiteralExpressionNode
+	func createDefaultMapDataType as sling.common.DataTypeNode
+	func acceptSymbolExpression(isFirst as bool) as sling.model.SymbolExpressionNode
+	func acceptBinaryOperator(text as string) as sling.common.Token
+	func acceptLegacyTypeCastOperator as sling.common.DataTypeNode
+	func acceptTraceStatement as sling.model.ErrorStatementNode
+	func parseControlStructureBlock as sling.model.BlockNode
+	func parseFunctionBlock(meta as sling.common.NodeObject = null) as sling.model.BlockNode
+	func acceptBlockOrStatement(newlineForBrace as bool, meta as sling.common.NodeObject = null) as sling.model.BlockNode
+	func parseBlockOrStatement(newlineForBrace as bool, meta as sling.common.NodeObject = null) as sling.model.BlockNode
+	func acceptWhileStatement as sling.model.WhileStatementNode
+	func acceptBreakStatement as sling.model.BreakStatementNode
+	func acceptContinueStatement as sling.model.ContinueStatementNode
+	func acceptDoStatement as sling.model.DoWhileStatementNode
+	func acceptPrintLineStatement as sling.model.PrintLineStatementNode
+	func acceptPrintStatement as sling.model.PrintStatementNode
+	func acceptReturnStatement as sling.model.ReturnStatementNode
+	func acceptTryStatement as sling.model.TryCatchStatementNode
+	func acceptThrowStatement as sling.model.ThrowStatementNode
+	func acceptCriticalSection as sling.model.CriticalSectionBlockNode
+	func acceptEmptyStatement as sling.model.EmptyStatementNode
+	func acceptLoopStatement as sling.model.WhileStatementNode
+	func acceptSlonObject as object
+	func parseSlonObject as object
+	func acceptSlonVector as jk.lang.DynamicVector
+	func acceptSlonDynamicMap as jk.lang.DynamicMap
+	func acceptExternalImplementationReference as sling.model.ExternalImplementationReferenceNode
+	func acceptStatement as sling.common.NodeObject
+	func parseStatement as sling.common.NodeObject
+	func acceptTemplateStatement as sling.model.TemplateStatementNode
+	func acceptCommentWithNewlines as sling.model.CommentNode
+	func doAcceptCommentWithNewlines as sling.model.CommentNode
+	func skipUnnecessaryEmptyLines as int
+	func getExistingChildNamespace(root as sling.common.ContainerNode, name as string) as sling.common.ContainerNode
+	func getCreateNamespace(root as sling.common.ContainerNode, nss as vector) as sling.common.ContainerNode
+	func acceptImportStatement as sling.common.NodeObject
+	func acceptUseStatement as sling.common.NodeObject
+	func parseFlatBlockInContext(context as int, requireBraces as bool = true) as sling.model.FlatBlockNode
+	func isFixme(comment as sling.model.CommentNode) as bool
+	func acceptImmediateCommentToken override as sling.common.Token
+	func preprocessIdentifier(t as string) override as string
+	func acceptBuiltinDataType as sling.common.DataTypeNode
+	func parseReferenceDataType as sling.model.ReferenceDataTypeNode
+	func parseMagicalDataTypeSymbol as sling.model.SymbolNode
+	func acceptMagicalDataTypeSymbol as sling.model.SymbolNode
+	func acceptModifierKeyword(keyword as string) as bool
+	func acceptCommonModifierId as string
+	func acceptCommonModifier as sling.model.CommonModifierNode
+	func acceptCommonModifiers as vector
+	func parseScriptContents(v as sling.model.ScriptDeclarationNode, inFileMode as bool)
+	func parseScriptDeclaration as sling.common.NodeObject
+	func acceptRegionDeclaration(context as int) as sling.model.RegionDeclarationNode
+	func getFileModeEntityName(src as sling.common.Token) as string
+	func acceptFileModeStartTerminator as bool
+	func acceptClassInFileMode as sling.model.ClassDeclarationNode
+	func parseClassContents(v as sling.model.ClassDeclarationNode, inFileMode as bool)
+	func parseInterfaceContents(v as sling.model.InterfaceDeclarationNode, inFileMode as bool)
+	func acceptForeachLoopVariableDeclaration as sling.model.VariableDeclarationNode
+	func parseForeachLoopVariableDeclaration as sling.model.VariableDeclarationNode
+	func acceptForeachStatement as sling.model.ForEachStatementNode
+	func acceptSwitchStatement as sling.model.SwitchStatementNode
+	func acceptAnnotationModifierToken as sling.common.Token
+	func acceptNamespaceDeclaration as sling.model.NamespaceNode
+	func acceptDocumentationToken as string
+	func acceptDocumentationSection as vector<string>
+	func acceptEntityDescription as string
+	func acceptEntityDeclarationDescription as string
+	func acceptMacroDeclaration as sling.model.FunctionDeclarationNode
+	func acceptModifierDeclaration(src as sling.common.Token) as sling.common.NodeObject
+	func parseModifierDeclaration(src as sling.common.Token) as sling.common.NodeObject
+	func parseDependsDeclaration(src as sling.common.Token) as sling.common.NodeObject
+	func parseBaseTypeDeclaration(src as sling.common.Token) as sling.common.NodeObject
+	func addDeclarationToContainer(container as sling.common.ContainerNode, declaration as sling.common.NodeObject)
+	func acceptUiDeclaration as sling.model.UIExpressionNode
+	func acceptMarkupTextContentToken as sling.common.Token
+	func acceptTagNameToken as sling.common.Token
+	func acceptTreeElementChild(v as sling.model.TreeElementNode) as bool
+	func parseTreeElementChild(v as sling.model.TreeElementNode)
+	func acceptStyleSheetRulePropertyNameToken as sling.common.Token
+	func parse override as sling.common.CodeFileNode
+	func parseAsStatements as sling.model.FlatBlockNode
+	func parseAsEntityDeclarations as sling.model.FlatBlockNode
+	func parseAsNamespaceDeclarations as sling.model.FlatBlockNode
+	func parseFileAsStatements(file as jk.fs.File) as sling.model.FlatBlockNode
+	func parseStringAsStatements(data as string, dataName as string) as sling.model.FlatBlockNode
+	func parseFileAsEntityDeclarations(file as jk.fs.File) as sling.model.FlatBlockNode
+	func parseStringAsEntityDeclarations(data as string, dataName as string) as sling.model.FlatBlockNode
+	func parseStringAsNamespaceDeclarations(data as string, dataName as string) as sling.model.FlatBlockNode
+	func parseFileAsNamespaceDeclarations(file as jk.fs.File) as sling.model.FlatBlockNode
+	func parseFileInContext(file as jk.fs.File, context as int) as sling.model.FlatBlockNode
+	func getCurrentEntityName as string #getterMethod
+	func setCurrentEntityName(v as string) as sling.parser.SlingParser #setterMethod
+	func getShowFixmeWarnings as bool #getterMethod
+	func setShowFixmeWarnings(v as bool) as sling.parser.SlingParser #setterMethod
+	func getAcceptDeprecatedConstructs as bool #getterMethod
+	func setAcceptDeprecatedConstructs(v as bool) as sling.parser.SlingParser #setterMethod
+}

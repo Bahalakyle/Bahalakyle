@@ -1,0 +1,42 @@
+[2021-03-26 10:12:37.216] [remoteagent] [info] 
+
+*
+* Visual Studio Code Server
+*
+* Reminder: You may only use this software with Visual Studio family products,
+* as described in the license https://aka.ms/vscode-remote/license
+*
+
+
+[2021-03-26 10:12:37.216] [remoteagent] [info] Extension host agent started.
+[2021-03-26 10:12:38.994] [remoteagent] [info] [127.0.0.1][4daea623][ManagementConnection] New connection established.
+[2021-03-26 10:12:40.193] [remoteagent] [info] [127.0.0.1][c01ff104][ExtensionHostConnection] New connection established.
+[2021-03-26 10:12:40.386] [remoteagent] [info] [127.0.0.1][c01ff104][ExtensionHostConnection] <644752> Launched Extension Host Process.
+[2021-03-26 10:13:04.824] [remoteagent] [info] [127.0.0.1][4daea623][ManagementConnection] The client has reconnected.
+[2021-03-26 10:14:38.691] [remoteagent] [info] [127.0.0.1][4daea623][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+[2021-03-26 10:15:05.225] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] New connection established.
+[2021-03-26 10:15:05.421] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] New connection established.
+[2021-03-26 10:15:05.425] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] <647602> Launched Extension Host Process.
+[2021-03-26 10:15:06.174] [remoteagent] [info] Terminal layout retrieved: [1]
+[2021-03-26 10:15:06.684] [remoteagent] [info] Replaying 268 chars and 2 size events.
+[2021-03-26 10:15:33.193] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 10:15:44.878] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 10:16:07.907] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 10:20:05.230] [remoteagent] [info] [127.0.0.1][c01ff104][ExtensionHostConnection] <644752> Extension Host Process exited with code: 0, signal: null.
+[2021-03-26 10:23:43.889] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 10:23:50.630] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 10:33:51.185] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 10:45:51.296] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 10:45:53.030] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 10:51:31.694] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 11:09:13.708] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 11:09:19.151] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 11:15:30.364] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 11:22:36.815] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 11:24:32.166] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 11:25:02.130] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 11:33:15.210] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 11:33:15.751] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 11:36:14.269] [remoteagent] [info] [127.0.0.1][2ffc4bf4][ManagementConnection] The client has reconnected.
+[2021-03-26 11:36:17.158] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.
+[2021-03-26 11:38:00.712] [remoteagent] [info] [127.0.0.1][435e744a][ExtensionHostConnection] The client has reconnected.

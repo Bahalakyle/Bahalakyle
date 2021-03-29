@@ -1,0 +1,116 @@
+class name sling.web.compiler.SlingToWeb5Compiler header extends sling.compiler.SlingCompiler public
+{
+	import jk.lang
+	import jk.fs
+	import jk.log
+	import jk.archive
+	import sling.common
+	import sling.util
+	import sling.model
+	import sling.op
+	import sling.compiler
+	import sling.js.parser
+	import sling.js.generator
+	ctor(ctx as jk.log.LoggingContext)
+	func createLibraryManager override as sling.compiler.LibraryManager
+	func getTargetPlatformId override as string
+	func getTargetPlatformName override as string
+	func getDefines(v as jk.lang.DynamicMap) override
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) override as jk.fs.File
+	func executePreprocessorFilters(root as sling.common.CodeUnitNode) override
+	func transform(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.util.TypeResolver) override
+	func writeModuleSources(ctx as jk.log.LoggingContext, node as sling.model.NamespaceNode, output as jk.fs.File, moduleId as string) override
+	func buildToWebApplication(source as jk.fs.File, output as jk.fs.File, customName as string, customVersion as string, generateIndex as bool = true)
+	func buildToLegacyWebApplication(source as jk.fs.File, output as jk.fs.File, customName as string, customVersion as string, generateIndex as bool = true)
+}
+class name sling.web.compiler.SlingToWeb6Compiler header extends sling.compiler.SlingCompiler public
+{
+	import jk.lang
+	import jk.fs
+	import jk.log
+	import jk.archive
+	import sling.common
+	import sling.util
+	import sling.model
+	import sling.op
+	import sling.compiler
+	import sling.js.parser
+	import sling.js.generator
+	ctor(ctx as jk.log.LoggingContext)
+	func createLibraryManager override as sling.compiler.LibraryManager
+	func getTargetPlatformId override as string
+	func getTargetPlatformName override as string
+	func getDefines(v as jk.lang.DynamicMap) override
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) override as jk.fs.File
+	func executePreprocessorFilters(root as sling.common.CodeUnitNode) override
+	func transform(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.util.TypeResolver) override
+	func writeModuleSources(ctx as jk.log.LoggingContext, node as sling.model.NamespaceNode, output as jk.fs.File, moduleId as string) override
+	func buildToWebApplication(source as jk.fs.File, output as jk.fs.File, customName as string, customVersion as string, generateIndex as bool = true, generateMainFunctionCall as bool = false)
+}
+class name sling.web.compiler.Web5LibraryManager header extends sling.compiler.LibraryManager public
+{
+	import jk.lang
+	import jk.fs
+	import jk.env
+	import sling.compiler
+	ctor
+	func forDefaultDirectory static as sling.web.compiler.Web5LibraryManager
+	func forDirectory(dir as jk.fs.File) static as sling.web.compiler.Web5LibraryManager
+	func getPlatformName as string
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) as jk.fs.File
+}
+class name sling.web.compiler.Web6LibraryManager header extends sling.compiler.LibraryManager public
+{
+	import jk.lang
+	import jk.fs
+	import jk.env
+	import sling.compiler
+	ctor
+	func forDefaultDirectory static as sling.web.compiler.Web6LibraryManager
+	func forDirectory(dir as jk.fs.File) static as sling.web.compiler.Web6LibraryManager
+	func getPlatformName as string
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) as jk.fs.File
+}
+class name sling.web.compiler.SlingToWebOps header public
+{
+	import jk.lang
+	import jk.log
+	import sling.common
+	import sling.op
+	import sling.util
+	import sling.model
+	import sling.model.ext
+	import sling.compiler
+	import sling.parser
+	import sling.js.model
+	ctor
+	func convertSlingToHTMLSettings(node as sling.common.CodeUnitNode) static
+	func isReferenceToCurrentClass(expr as sling.model.ExpressionNode) static as bool
+	func convertVariableDeclarationsToES5Style(node as sling.common.NodeObject) static
+	func convertGetExpressionTypeInfoToMemberAccesses(node as sling.common.NodeObject, resolver as sling.util.TypeResolver) static
+	func convertConstructorsToES5Style(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.compiler.SlingTypeResolver) static
+	func collectAllBaseTypeInfo(root as sling.common.NodeObject, resolver as sling.util.TypeResolver) static as map<string,jk.lang.StringSet>
+	func convertBaseClassFunctionCalls(node as sling.common.NodeObject, resolver as sling.util.TypeResolver) static
+	func convertTypeCheckExpressions(node as sling.common.NodeObject, resolver as sling.util.TypeResolver) static
+	func bindFunctionDeclarationExpressions(node as sling.common.NodeObject) static
+	func convertEntitiesToES5Style(node as sling.common.NodeObject, btinfo as map<string,jk.lang.StringSet>, resolver as sling.util.TypeResolver) static
+	func convertEntitiesToES6Style(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, btinfo as map<string,jk.lang.StringSet>, resolver as sling.util.TypeResolver) static
+	func convertCharactersInComparisonAndArithmeticToStaticCast(node as sling.common.NodeObject) static
+	func flattenDynamicCastsWithDynamicType(node as sling.common.NodeObject) static
+	func removeStaticCastExpressions(node as sling.common.NodeObject) static
+	func convertGetSizeExpressions(node as sling.common.NodeObject) static
+	func convertPrimitiveStatiCastsToFunctionCalls(node as sling.common.NodeObject) static
+	func renameEntitiesAndSymbol(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func renameNodesWithReservedWords(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func transformMapLiterals(node as sling.common.NodeObject, resolver as sling.util.TypeResolver) static
+	func convertMapSubscriptsToFunctionCalls(node as sling.common.NodeObject) static
+	func convertMainFunctionsToRegularFunctions(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func moveClassVariableDefaultValuesToConstructors(node as sling.common.NodeObject) static
+	func isFunctionRerefence(sx as sling.model.SymbolExpressionNode) static as sling.model.FunctionDeclarationNode
+	func convertFunctionSymbolReferencesToFunctionDeclarationExpressions(node as sling.common.NodeObject) static
+	func removeDefaultValuesFromFunctionDeclarations(node as sling.common.NodeObject) static
+	func ensureUniqueVariableNames(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func processHTMLScreensForMotion(root as sling.common.NodeObject) static
+	func processHTMLScreensForWidgets(root as sling.common.NodeObject) static
+	func convertPromiseLiteralsToPromiseInstantiations(node as sling.common.NodeObject) static
+}

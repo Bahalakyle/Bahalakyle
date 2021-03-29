@@ -1,0 +1,18 @@
+class name jk.random.Random header public
+{
+	import jk.math
+	import jk.lang
+	import jk.time
+	func getSushiRandom as object
+	func getSharedInstance static as jk.random.Random
+	ctor
+	ctor(seed as int64)
+	func setSeed(seed as int64)
+	func nextBoolean as bool
+	func nextInt as int32
+	func nextInt(n as int32) as int32
+	func nextInt(s as int32, e as int32) as int32
+	func nextBytes(buf as array<int8>)
+	func nextDouble as double
+	func nextFloat as float
+}

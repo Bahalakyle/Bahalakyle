@@ -1,0 +1,14 @@
+class name jk.widget.signature.SignatureWidget header extends jk.widget.Widget public #widget
+{
+	import jk.lang
+	import jk.lang
+	import jk.ui
+	import jk.gfx
+	import jk.widget
+	func prepareElement(element as object) override
+	ctor(ctx as jk.ui.GuiApplicationContext)
+	func setStrokeColor(color as jk.gfx.Color)
+	func setStrokeWidth(width as float)
+	func clear
+	func getSignatureAsImage as jk.gfx.Image
+}

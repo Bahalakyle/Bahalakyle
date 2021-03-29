@@ -1,0 +1,12 @@
+{
+	"license" : "All rights reserved.",
+	"version" : "0.15.0",
+	"title" : "",
+	"libraries" : [
+		"sling-core:0.27.0"
+	],
+	"description" : "",
+	"copyright" : "Copyright (c) 2019-2021 J42 Pte Ltd",
+	"name" : "sling-sushi-export",
+	"namespace" : "eqela"
+}

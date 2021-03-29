@@ -1,0 +1,111 @@
+class name sling.generator.SlingGeneratorUtil header public
+{
+	import jk.log
+	import sling.common
+	import sling.model
+	import jk.lang
+	ctor
+	func describeDataType(dt as sling.common.DataTypeNode) static as string
+	func dumpToString(ctx as jk.log.LoggingContext, code as sling.common.CodeFileNode) static as string
+}
+class name sling.generator.SlingGenerator header extends sling.common.CodeGenerator public
+{
+	import jk.log
+	import jk.text
+	import sling.util
+	import sling.common
+	import sling.model
+	import sling.model.ext
+	import jk.lang
+	var CONTEXT_NAMESPACE const public static as int
+	var CONTEXT_CLASS const public static as int
+	var CONTEXT_INTERFACE const public static as int
+	var CONTEXT_ENUM const public static as int
+	var CONTEXT_SCRIPT const public static as int
+	var CONTEXT_EXPRESSION const public static as int
+	var CONTEXT_STATEMENT_BLOCK const public static as int
+	var CONTEXT_DELEGATE const public static as int
+	ctor(ctx as jk.log.LoggingContext, output as sling.common.OutputWriterManager)
+	func adjustIndent(n as int)
+	func dumpOpeningBrace
+	func dumpKeywordParens
+	func onFileStarted override
+	func dumpComment(node as sling.model.CommentNode, allowExtraNewlines as bool) virtual as bool
+	func output(str as string) override
+	func doOutput(str as string, isComment as bool) protected
+	func getContextName(ctx as int) as string
+	func startModuleFile(name as string)
+	func dumpHeader(node as sling.model.NamespaceNode, name as string)
+	func dumpDirectory(cd as sling.common.CodeDirectoryNode)
+	func dumpFile(script as sling.common.CodeFileNode) override
+	func doDumpFile(script as sling.common.CodeFileNode, moduleName as string)
+	func dumpPlingMapValue(key as string, value as jk.lang.DynamicMap)
+	func dumpPlingStringValueWithInt(key as string, value as int)
+	func dumpPlingStringValueWithBool(key as string, value as bool)
+	func dumpPlingStringValueWithVector(key as string, values as vector)
+	func dumpPlingStringValueWithString(value as string)
+	func dumpPlingStringValue(key as string, value as string)
+	func dumpModulePling(node as sling.common.CodeUnitSettingsNode)
+	func dumpResources(node as sling.common.CodeUnitNode)
+	func dumpModule(module as sling.common.CodeUnitNode) override
+	func dumpImportStaticMemberStatement(node as sling.model.ImportStaticMemberStatementNode)
+	func dumpImportPackageStatement(node as sling.model.ImportPackageStatementNode)
+	func dumpImportEntityStatement(node as sling.model.ImportEntityStatementNode)
+	func dumpTypeAliasDeclaration(node as sling.model.TypeAliasDeclarationNode)
+	func dumpModifier(node as sling.common.NodeObject, mod as string)
+	func dumpCommonModifiers(node as sling.model.NodeWithModifiers, excludeModifiers as jk.lang.StringSet = null)
+	func dumpAnnotationModifiers(node as sling.model.NodeWithModifiers, excludeModifiers as jk.lang.StringSet = null)
+	func symbolComponentToString(symbol as sling.model.SymbolNode, o as object) static as string
+	func symbolToString(symbol as sling.model.SymbolNode, dumpAbsolute as bool = true) static as string
+	func getFunctionCallDisplayString(fc as sling.model.FunctionCallExpressionNode) static as string
+	func dataTypeToString(node as sling.common.DataTypeNode) static as string
+	func dumpEntityBaseTypes(node as sling.model.EntityDeclarationNode)
+	func escapeDoubleQuotes(str as string) as string
+	func dumpEntityImports(node as sling.model.EntityDeclarationNode, addNewline as bool) as int
+	func dumpEntityDeclarationHeader(node as sling.model.EntityDeclarationNode, useQualifiedName as bool)
+	func dumpEntityModifiers(node as sling.model.EntityDeclarationNode)
+	func dumpEntityDeclaration(node as sling.model.EntityDeclarationNode)
+	func dumpControlStructureBlock(node as sling.model.BlockNode)
+	func outputLongStringWithWrapping(value as string)
+	func dumpFunctionBlock(node as sling.model.BlockNode, description as string)
+	func dumpStandaloneBlock(node as sling.model.BlockNode)
+	func dumpFunctionExpressionBlock(node as sling.model.BlockNode)
+	func dumpFunctionSignatureParameters(params as vector)
+	func dumpMainFunctionDeclaration(function as sling.model.MainFunctionDeclarationNode)
+	func dumpWebApiRequestHandlerFunction(function as sling.model.ext.NSlingWebApiRequestHandlerFunctionDeclaration)
+	func dumpStatementContainer(node as sling.common.ContainerNode)
+	func dumpContainerInContext(node as sling.common.ContainerNode, context as int)
+	func dumpExplicitPropertyParameterDeclaration(function as sling.model.FunctionDeclarationBaseNode)
+	func dumpBaseTypeNode(node as sling.model.BaseTypeNode)
+	func dumpDependencyDeclaration(node as sling.model.DependencyDeclarationNode)
+	func dumpNodeInContext(node as sling.common.NodeObject, previousNode as sling.common.NodeObject, context as int)
+	func dumpStyleSheetRule(node as sling.model.StyleSheetRuleNode)
+	func dumpStyleSheetBlockContents(node as sling.model.BlockNode)
+	func dumpStyleSheetDeclaration(node as sling.model.StyleSheetDeclarationNode)
+	func dumpStyleSheetExpression(node as sling.model.StyleSheetExpressionNode)
+	func dumpIndexerDeclaration(node as sling.model.IndexerDeclarationNode)
+	func dumpNamespaceNode(node as sling.model.NamespaceNode)
+	func dumpWithStatementNode(node as sling.model.WithStatementNode, context as int)
+	func dumpEnumValue(node as sling.model.EnumValueNode)
+	func getOperatorPrecedence(node as sling.model.ExpressionNode) as int
+	func isLowerPriority(node as sling.model.ExpressionNode, parent as sling.model.ExpressionNode, isRvalue as bool) as bool
+	func dumpExpression(node as sling.model.ExpressionNode, parent as sling.model.ExpressionNode, isRvalue as bool = false)
+	func dumpLongString(value as string)
+	func shouldDumpAbsoluteSymbol(symbol as sling.model.SymbolExpressionNode) as bool
+	func doDumpExpression(node as sling.model.ExpressionNode, parent as sling.model.ExpressionNode)
+	func dumpTreeExpression(node as sling.model.TreeExpressionNode)
+	func dumpTreeDeclaration(node as sling.model.TreeDeclarationNode)
+	func dumpClassDeclarationInstantiationExpressionNode(node as sling.model.ClassDeclarationInstantiationExpressionNode)
+	func dumpUIExpressionContents(node as sling.model.UIExpressionNode)
+	func dumpUIExpressionNodeInClass(node as sling.model.UIExpressionNode)
+	func getExcludeComments as bool #getterMethod
+	func setExcludeComments(v as bool) as sling.generator.SlingGenerator #setterMethod
+	func getCurrentIndent as int #getterMethod
+	func setCurrentIndent(v as int) as sling.generator.SlingGenerator #setterMethod
+	func getCopyrightDeclaration as string #getterMethod
+	func setCopyrightDeclaration(v as string) as sling.generator.SlingGenerator #setterMethod
+	func getHangingBraces as bool #getterMethod
+	func setHangingBraces(v as bool) as sling.generator.SlingGenerator #setterMethod
+	func getInsertSpaceAfterKeywords as bool #getterMethod
+	func setInsertSpaceAfterKeywords(v as bool) as sling.generator.SlingGenerator #setterMethod
+}

@@ -1,0 +1,13 @@
+{
+	"license" : "",
+	"version" : "0.38.0",
+	"title" : "JK Net",
+	"libraries" : [
+		"jk-core:0.36.0",
+		"jk-data:0.32.0"
+	],
+	"description" : "",
+	"copyright" : "",
+	"name" : "jk-net",
+	"namespace" : "eqela"
+}

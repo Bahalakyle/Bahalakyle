@@ -1,0 +1,629 @@
+class name sling.compiler.SlingPreprocessor header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func forDefines(defines as jk.lang.DynamicMap) static as sling.compiler.SlingPreprocessor
+	func set(key as string, value as string)
+	func execute(root as sling.common.NodeObject)
+	func processTemplateFile(node as sling.common.NodeObject, file as jk.fs.File, symbol as sling.model.SymbolNode, ip as sling.common.NodeInsertionPoint) as bool
+	func getVariables as jk.lang.DynamicMap #getterMethod
+	func setVariables(v as jk.lang.DynamicMap) as sling.compiler.SlingPreprocessor #setterMethod
+	func getCtx as jk.log.LoggingContext #getterMethod
+	func setCtx(v as jk.log.LoggingContext) as sling.compiler.SlingPreprocessor #setterMethod
+}
+class name sling.compiler.JkopOps header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func expandToJkopSetContains(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertModelsToJkop(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertWebApiToSympathy(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertWebApi2ToSympathy(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func protectStringConcatenationExpression(xpr as sling.model.ExpressionNode) static
+	func protectStringConcatenationExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func addJkopAutomaticImports(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func forceJkopVectorOperations(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func processCriticalSections(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func createDynamicConverterExpression(xpr as sling.model.ExpressionNode, type as sling.common.DataTypeNode, resolver as sling.util.TypeResolver) static as sling.model.ExpressionNode
+}
+class name sling.compiler.SlingOps header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func performCommonAdjustments(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func preprocess(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, defines as jk.lang.DynamicMap) static
+	func processDefaultDataTypeValues(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, processTemplates as bool, resolver as sling.compiler.SlingTypeResolver) static
+	func expandElseBlocksInLoopDeclarations(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func expandVariableDeclarationExpressionsInIfStatements(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func expandPropertyDeclarationsToMethods(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.util.TypeResolver) static
+	func expandVariablesWithPropertyModifier(ctx as jk.log.LoggingContext, resolver as sling.util.TypeResolver, node as sling.common.NodeObject) static
+	func consolidateEntities(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func preprocessProperties(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandFileSystemReferenceExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func expandMacros(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.util.TypeResolver, removeDeclarations as bool = true) static
+	func removeMacroDeclarations(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func createSlingConstructorsForClass(ctx as jk.log.LoggingContext, tr as sling.util.TypeResolver, cl as sling.model.ClassDeclarationNode) static
+	func createSlingConstructors(ctx as jk.log.LoggingContext, tr as sling.util.TypeResolver, node as sling.common.NodeObject) static
+	func processTypedefEntities(ctx as jk.log.LoggingContext, root as sling.common.NodeObject, resolver as sling.util.TypeResolver) static
+	func processStringComparisonOperators(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func processAdditionOperators(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+	func performAutomaticTypeConversions(ctx as jk.log.LoggingContext, resolver as sling.util.TypeResolver, root as sling.common.NodeObject) static
+	func mergeSlingUnitSettings(from as sling.model.ext.NSlingUnitSettings, to as sling.model.ext.NSlingUnitSettings) static
+	func consolidateSlingUnitSettings(node as sling.common.CodeUnitNode) static
+	func transferTrailingParametersToParameters(node as sling.common.NodeObject) static
+	func transformToOutputModuleCombined(v as sling.common.CodeUnitNode, root as sling.model.NamespaceNode, fileName as string = null, fileExtension as string = null) static
+	func expandForeachStatementsStatic(ctx as jk.log.LoggingContext, tr as sling.util.TypeResolver, root as sling.common.NodeObject) static
+	func expandForeachStatementsDynamic(root as sling.common.NodeObject) static
+	func expandMembershipCheckExpressions(root as sling.common.NodeObject) static
+	func convertRangeExpressionsToJkopRange(root as sling.common.NodeObject) static
+	func addNodeToTargetNamespace(node as sling.common.NodeObject, target as sling.model.NamespaceNode) static
+	func addVectorToNamespace(node as sling.common.NamedNode, container as vector, target as sling.model.NamespaceNode) static
+	func addDefaultModifiersToDeclarations(node as sling.common.NodeObject) static
+	func transformToProcessingTree(ctx as jk.log.LoggingContext, modules as vector<sling.common.CodeUnitNode>) static as sling.model.NamespaceNode
+	func createDataTypeDefaultValue(type as sling.common.DataTypeNode) static as sling.model.ExpressionNode
+	func convertReferenceSubscriptsToFunctionCalls(node as sling.common.NodeObject, resolver as sling.compiler.SlingTypeResolver) static
+	func validateTree(ctx as jk.log.LoggingContext, resolver as sling.compiler.SlingTypeResolver, node as sling.common.NodeObject) static
+	func validateCreateObjectExpressions(node as sling.common.NodeObject) static
+	func validateExpectedTypes(ctx as jk.log.LoggingContext, resolver as sling.compiler.SlingTypeResolver, node as sling.common.NodeObject) static
+	func validateVariableDeclarations(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func validateInheritedInterfaces(ctx as jk.log.LoggingContext, resolver as sling.util.TypeResolver, node as sling.common.NodeObject) static
+	func validateFunctionDeclarations(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func validateEntityBoundSymbolExpressions(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func validateReturnStatements(ctx as jk.log.LoggingContext, resolver as sling.compiler.SlingTypeResolver, node as sling.common.NodeObject) static
+	func validateEntityBaseClasses(ctx as jk.log.LoggingContext, resolver as sling.compiler.SlingTypeResolver, node as sling.common.NodeObject) static
+	func validateExpressionsInStaticDeclarations(ctx as jk.log.LoggingContext, resolver as sling.compiler.SlingTypeResolver, root as sling.common.NodeObject) static
+	func expandFailureLiterals(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.compiler.SlingTypeResolver) static
+}
+class name sling.compiler.LibraryManager header abstract public
+{
+	import jk.fs
+	import jk.log
+	import jk.env
+	import jk.url
+	import jk.slon
+	import jk.json
+	import jk.archive
+	import jk.http.client
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func substituteCustomLibraries(libraries as vector, customlibs as vector<sling.compiler.LibraryName>) static as vector
+	func getPlatformName abstract as string
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) abstract as jk.fs.File
+	func getLibraryDirectory as jk.fs.File
+	func setForcedLibraryVersion(id as string, version as string)
+	class name RepositoryUrl header public static
+	{
+		ctor
+		func forUrlString(str as string) static as sling.compiler.LibraryManager.RepositoryUrl
+		func getUrl as string #getterMethod
+		func setUrl(v as string) as sling.compiler.LibraryManager.RepositoryUrl #setterMethod
+		func getAuthKey as string #getterMethod
+		func setAuthKey(v as string) as sling.compiler.LibraryManager.RepositoryUrl #setterMethod
+	}
+	func readRepositoryConfigFile(ctx as jk.log.LoggingContext, map as jk.fs.File) as jk.lang.DynamicMap
+	func getDefaultRepositoryUrls(urls as vector<sling.compiler.LibraryManager.RepositoryUrl>) virtual
+	func getHubRepositoryUrls(urls as vector<sling.compiler.LibraryManager.RepositoryUrl>) virtual
+	func getRepositoryUrls(ctx as jk.log.LoggingContext) as vector<sling.compiler.LibraryManager.RepositoryUrl>
+	func isInstalled(libid as string) as bool
+	func getLibraryFileManifest(file as jk.fs.File) as jk.lang.DynamicMap
+	func installLibraryFromFile(ctx as jk.log.LoggingContext, file as jk.fs.File, overwrite as bool) as bool
+	func installLibraryFromBuffer(ctx as jk.log.LoggingContext, buffer as buffer, overwrite as bool) as bool
+	func installLibraryById(ctx as jk.log.LoggingContext, libid as string, force as bool) as bool
+	func isOlderCompatibleVersion(thisVersion as string, processedVersion as string) as bool
+	func isNewerCompatibleVersion(thisVersion as string, processedVersion as string) as bool
+	func processRequiredLibraries(ctx as jk.log.LoggingContext, libnames as vector) as vector<jk.fs.File>
+	func generateModuleInfosForLibdirs(ctx as jk.log.LoggingContext, libdirs as vector<jk.fs.File>) as vector<sling.compiler.LinkableModuleInfo>
+	func generateModuleInfosForBuild(ctx as jk.log.LoggingContext, dirs as vector<jk.fs.File>, customlibs as vector<sling.compiler.LibraryName>) as vector<sling.compiler.LinkableModuleInfo>
+	func getDirectory as jk.fs.File #getterMethod
+	func setDirectory(v as jk.fs.File) as sling.compiler.LibraryManager #setterMethod
+}
+class name sling.compiler.ForEachHandler header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func expandForeachStatementsStatic(ctx as jk.log.LoggingContext, tr as sling.util.TypeResolver, root as sling.common.NodeObject) static
+	func expandForeachStatementsDynamic(root as sling.common.NodeObject) static
+}
+class name sling.compiler.ModelExpanderForJkop header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func convertPrimitiveType(type as sling.common.DataTypeNode) as sling.common.DataTypeNode
+	func dataTypeToSymbolExpression(type as sling.common.DataTypeNode) as sling.model.ExpressionNode
+	func getUnboxingFunctionFor(vname as string, type as sling.common.DataTypeNode) as sling.model.ExpressionNode
+	func getBoxingFunctionFor(vname as string, type as sling.common.DataTypeNode) as sling.model.ExpressionNode
+	func addPropertyVariable(decl as sling.model.ClassDeclarationNode, name as string, type as sling.common.DataTypeNode)
+	func addPrimitivePropertyVariable(decl as sling.model.ClassDeclarationNode, name as string, type as sling.common.DataTypeNode)
+	func addSetterAndGetterMethod(decl as sling.model.ClassDeclarationNode, name as string, type as sling.common.DataTypeNode)
+	func addPrimitiveSetterAndGetterMethod(decl as sling.model.ClassDeclarationNode, name as string, type as sling.common.DataTypeNode)
+	func execute(root as sling.common.NodeObject)
+	func getGenerateAsJsonObject as bool #getterMethod
+	func setGenerateAsJsonObject(v as bool) as sling.compiler.ModelExpanderForJkop #setterMethod
+	func getGenerateMethods as bool #getterMethod
+	func setGenerateMethods(v as bool) as sling.compiler.ModelExpanderForJkop #setterMethod
+	func getGenerateProperties as bool #getterMethod
+	func setGenerateProperties(v as bool) as sling.compiler.ModelExpanderForJkop #setterMethod
+}
+class name sling.compiler.SlingCompiler header abstract public
+{
+	import jk.env
+	import jk.sha
+	import jk.md5
+	import jk.time
+	import jk.text
+	import jk.json
+	import jk.archive
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	func getGlobalBuildVersion static as string
+	func sanitizeModuleId(id as string) static as string
+	var ctx protected as jk.log.LoggingContext
+	ctor(ctx as jk.log.LoggingContext)
+	func getTargetPlatformId abstract as string
+	func getTargetPlatformName abstract as string
+	func getDefines(v as jk.lang.DynamicMap) abstract
+	func transform(ctx as jk.log.LoggingContext, node as sling.common.NodeObject, resolver as sling.util.TypeResolver) abstract
+	func writeModuleSources(ctx as jk.log.LoggingContext, node as sling.model.NamespaceNode, output as jk.fs.File, moduleId as string) abstract
+	func createLibraryManager abstract as sling.compiler.LibraryManager
+	func getLinkTargetFile(directory as jk.fs.File, moduleName as string) abstract as jk.fs.File
+	func addToForcedLibraries(library as string)
+	func getLibraryManager as sling.compiler.LibraryManager
+	func addCustomPreprocessor(pp as function<void,jk.log.LoggingContext,sling.common.NodeObject>)
+	func setCtx(ctx as jk.log.LoggingContext) as sling.compiler.SlingCompiler
+	func getCtx as jk.log.LoggingContext
+	func setModuleInfoForLibraries(entries as vector<sling.compiler.LinkableModuleInfo>)
+	func setWorkDir(dir as jk.fs.File)
+	func getWorkDir as jk.fs.File
+	func getWorkDirFile(name as string) as jk.fs.File
+	func getBuildDirFor(file as jk.fs.File) as jk.fs.File
+	func changeDepth(dx as int)
+	func logWarning(text as string)
+	func logInfo(text as string)
+	func logDebug(text as string)
+	func getRawModuleId(module as jk.fs.File) as string
+	func getModuleId(module as jk.fs.File) as string
+	func getModuleConfiguration(module as jk.fs.File, customPlingOptions as jk.lang.DynamicMap) as sling.model.ext.NSlingUnitSettings
+	func isSlingModule(module as jk.fs.File) static as bool
+	func getContainingModule(dir as jk.fs.File, name as string) as jk.fs.File
+	func findSlingModuleInIncludes(name as string) as jk.fs.File
+	func readSlingString(string as string, name as string = null) as sling.common.CodeFileNode
+	func executePostFilters(node as sling.common.NodeObject)
+	func getRelativeFile(file as jk.fs.File, path as string) as jk.fs.File
+	func getDependencyModulesForTree(tree as sling.common.NodeObject, myName as string) as vector<string>
+	func readCodeFile(file as jk.fs.File, parser as sling.common.CodeParser, showParseMessages as bool) as sling.common.CodeFileNode
+	func tryReadCodeFile(file as jk.fs.File) as sling.common.CodeFileNode
+	func processDirectoryToVector(dir as jk.fs.File, container as vector) as int
+	func readModuleSourceCodeFromFile(file as jk.fs.File) as sling.common.CodeUnitNode
+	func readModuleSourceCodeFromString(moduleName as string, string as string) as sling.common.CodeUnitNode
+	func readAndPreprocessModuleSourceCode(file as jk.fs.File, customPlingOptions as jk.lang.DynamicMap) as sling.common.CodeUnitNode
+	func preprocessModule(moduleId as string, mod as sling.common.CodeUnitNode, opts as sling.model.ext.NSlingUnitSettings)
+	func executePreprocessorFilters(mod as sling.common.CodeUnitNode) virtual
+	func initializeOutputDirectory(output as jk.fs.File)
+	func getDependencyModulesFromFile(file as jk.fs.File) as vector<string>
+	func writeDependenciesToFile(deps as vector<string>, file as jk.fs.File)
+	func getFileTimestamp(file as jk.fs.File) as long
+	func getDirectoryTimestamp(dir as jk.fs.File) as long
+	func readDependencyHeaders(deps as vector<string>, modules as vector<sling.common.CodeUnitNode>, processed as jk.lang.StringSet)
+	func normalize(node as sling.common.NodeObject, resolver as sling.compiler.SlingTypeResolver)
+	func processModuleByPath(module as jk.fs.File, customPlingOptions as jk.lang.DynamicMap) as long
+	func processModuleByName(name as string) as long
+	func toModuleInfos(modules as vector<jk.fs.File>) as vector<sling.compiler.LinkableModuleInfo>
+	func getAllModulesForSource(source as jk.fs.File) as vector<sling.compiler.LinkableModuleInfo>
+	class name CompileLibraryResult header public static
+	{
+		ctor
+		func getNamespace as string #getterMethod
+		func setNamespace(v as string) as sling.compiler.SlingCompiler.CompileLibraryResult #setterMethod
+		func getName as string #getterMethod
+		func setName(v as string) as sling.compiler.SlingCompiler.CompileLibraryResult #setterMethod
+		func getVersion as string #getterMethod
+		func setVersion(v as string) as sling.compiler.SlingCompiler.CompileLibraryResult #setterMethod
+		func getPlatform as string #getterMethod
+		func setPlatform(v as string) as sling.compiler.SlingCompiler.CompileLibraryResult #setterMethod
+		func getFile as jk.fs.File #getterMethod
+		func setFile(v as jk.fs.File) as sling.compiler.SlingCompiler.CompileLibraryResult #setterMethod
+		func getWasModified as bool #getterMethod
+		func setWasModified(v as bool) as sling.compiler.SlingCompiler.CompileLibraryResult #setterMethod
+	}
+	func compileSlingLibrary(src as jk.fs.File, moduleDirs as vector<jk.fs.File>, outfile as jk.fs.File, outdir as jk.fs.File, customPlingOptions as jk.lang.DynamicMap, incremental as bool) as sling.compiler.SlingCompiler.CompileLibraryResult
+	func getFinalVersion(version as string) as string
+	func getFinalApplicationName(source as jk.fs.File, customName as string) as string
+	func buildApplicationModules(source as jk.fs.File, customName as string, customVersion as string)
+	func buildToSlingLibrary(source as jk.fs.File, output as jk.fs.File, customVersion as string, install as bool)
+	func getIncludes as vector<jk.fs.File> #getterMethod
+	func setIncludes(v as vector<jk.fs.File>) as sling.compiler.SlingCompiler #setterMethod
+	func getCustomDefines as jk.lang.DynamicMap #getterMethod
+	func setCustomDefines(v as jk.lang.DynamicMap) as sling.compiler.SlingCompiler #setterMethod
+	func getCustomPlingOptions as jk.lang.DynamicMap #getterMethod
+	func setCustomPlingOptions(v as jk.lang.DynamicMap) as sling.compiler.SlingCompiler #setterMethod
+	func getCompilerVersion as string #getterMethod
+	func setCompilerVersion(v as string) as sling.compiler.SlingCompiler #setterMethod
+	func getCustomPreprocessors as vector<function<void,jk.log.LoggingContext,sling.common.NodeObject>> #getterMethod
+	func setCustomPreprocessors(v as vector<function<void,jk.log.LoggingContext,sling.common.NodeObject>>) as sling.compiler.SlingCompiler #setterMethod
+	func getRebuildAll as bool #getterMethod
+	func setRebuildAll(v as bool) as sling.compiler.SlingCompiler #setterMethod
+	func getCustomLibs as vector<sling.compiler.LibraryName> #getterMethod
+	func setCustomLibs(v as vector<sling.compiler.LibraryName>) as sling.compiler.SlingCompiler #setterMethod
+	func getForcedLibraries as vector<string> #getterMethod
+	func setForcedLibraries(v as vector<string>) as sling.compiler.SlingCompiler #setterMethod
+}
+class name sling.compiler.Samtree2Ops header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func execute(ctx as jk.log.LoggingContext, root as sling.common.NodeObject) static
+}
+class name sling.compiler.ProgressHelper header public
+{
+	import jk.log
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	property ctx as jk.log.LoggingContext { hasset hasget }
+	property message as string { hasset hasget }
+	property startPercentage as double { hasset hasget }
+	property maxPercentage as double { hasset hasget }
+	property currentValue as int { hasset hasget }
+	property maxValue as int { hasset hasget }
+	func forMaximumValue(ctx as jk.log.LoggingContext, message as string, value as int) static as sling.compiler.ProgressHelper
+	func forFirstHalf(ctx as jk.log.LoggingContext, message as string, value as int) static as sling.compiler.ProgressHelper
+	func forSecondHalf(ctx as jk.log.LoggingContext, message as string, value as int) static as sling.compiler.ProgressHelper
+	func toProgress(n as int, c as int) as string
+	func onUpdate
+	func end
+	macro EXEC(o, x)
+	{
+		o.onUpdate()
+		x
+	}
+}
+class name sling.compiler.PropertyVariableExpander header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func execute(root as sling.common.NodeObject, resolver as sling.util.TypeResolver)
+}
+class name sling.compiler.JcoOps header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func findUIExpressions(node as sling.common.NodeObject) static as vector<sling.model.UIExpressionNode>
+	func expandAllUIExpressions(node as sling.common.NodeObject) static
+	func convertGetExpressionToFunctionCall(node as sling.model.ExpressionNode, isExact as bool, parentNode as sling.model.ExpressionNode) static as sling.model.ExpressionNode
+	func isNameValid(name as string) static as bool
+	func convertSetExpressionToFunctionCall(node as sling.model.PropertyValueDeclarationNode, leftName as string, value as sling.model.ExpressionNode, isExact as bool, isCommon as bool, parentNode as sling.model.ExpressionNode) static as sling.model.ExpressionNode
+	func handlePropertyValueDeclaration(node as sling.model.PropertyValueDeclarationNode, parentNode as sling.model.ExpressionNode) static as sling.common.NodeObject
+	macro ADDNODE(node)
+	{
+		if insertionPoint {
+			insertionPoint.insertBefore(node)
+		}
+		else {
+			block.addNode(node)
+		}
+	}
+	func handleUIExpressionNode(node as sling.model.UIExpressionNode, entity as sling.model.EntityDeclarationNode, method as sling.model.FunctionDeclarationBaseNode, block as sling.model.BlockNode, insertionPoint as sling.common.NodeInsertionPoint, parentNode as sling.model.ExpressionNode, contextVariableName as string, declareClassVariables as bool, includeAddStatement as bool) static as sling.model.VariableDeclarationNode
+	func createScreenForMainWidget(root as sling.common.NodeObject) static
+	func expandWidgetClasses(root as sling.common.NodeObject) static
+	func validateWidgets(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertUIExpressionsToWidgets(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+	func convertTreeDeclarationsToJkDom(ctx as jk.log.LoggingContext, node as sling.common.NodeObject) static
+}
+class name sling.compiler.SlingTypeResolver header extends sling.util.TypeResolver public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func createTypeMapforEntity(entity as sling.model.GenericCapableEntityDeclarationNode, typeParameters as vector) as sling.model.TypeMap
+	func addToTypemap(v as sling.util.ResolveResult, type as sling.model.ReferenceDataTypeNode, entity as sling.common.NodeObject)
+	func isNodeBefore(nodea as sling.common.NodeObject, nodeb as sling.common.NodeObject, block as sling.model.BlockNode) as bool
+	func tryResolveChildInContainer(container as sling.common.ContainerNode, beforeNode as sling.common.NodeObject, childName as string, staticOnly as bool = false) as sling.util.ResolveResult
+	func resolveChild(parent as sling.common.NodeObject, childName as string) as sling.util.ResolveResult
+	func resolveAbsoluteNames(context as sling.common.NodeObject, names as vector<string>) as sling.util.ResolveResult
+	func resolveAbsoluteNamesNode(context as sling.common.NodeObject, names as vector<string>) as sling.common.NodeObject
+	func resolveNames(context as sling.common.NodeObject, names as vector<string>) as sling.util.ResolveResult
+	func tryResolveNames(context as sling.common.NodeObject, names as vector<string>) as sling.util.ResolveResult
+	func resolveName(context as sling.common.NodeObject, name as string) as sling.util.ResolveResult
+	func tryResolveDataType(ctx as jk.log.LoggingContext, rdt as sling.model.ReferenceDataTypeNode) as bool
+	func storeTypeParameters(symbol as sling.model.SymbolNode) static
+	func resolveDataType(odt as sling.common.DataTypeNode)
+	func getResolveError(xpr as sling.model.ExpressionNode) as sling.common.ReferenceError
+	func getPossibleBindingsFromBaseTypes(container as sling.common.ContainerNode, name as string, v as vector<sling.util.ResolveResult>)
+	func inferTypeMapFromCallParameters(fd as sling.model.FunctionDeclarationNode, params as vector) as sling.model.TypeMap
+	class name MatchingComponents header public static
+	{
+		ctor
+		func getDeclaration as sling.model.FunctionDeclarationNode #getterMethod
+		func setDeclaration(v as sling.model.FunctionDeclarationNode) as sling.compiler.SlingTypeResolver.MatchingComponents #setterMethod
+		func getBinding as sling.common.NodeObject #getterMethod
+		func setBinding(v as sling.common.NodeObject) as sling.compiler.SlingTypeResolver.MatchingComponents #setterMethod
+		func getTypemap as sling.model.TypeMap #getterMethod
+		func setTypemap(v as sling.model.TypeMap) as sling.compiler.SlingTypeResolver.MatchingComponents #setterMethod
+	}
+	func getFunctionMatchingComponents(decls as vector<sling.util.ResolveResult>, params as vector, oxpr as sling.model.ExpressionNode) as vector<sling.compiler.SlingTypeResolver.MatchingComponents>
+	func resolveFunctionDeclaration(fc as sling.model.FunctionCallExpressionNode) as sling.model.FunctionDeclarationNode
+	func resolveMostExactFunctionDeclaration(comps as vector<sling.compiler.SlingTypeResolver.MatchingComponents>, prams as vector) as sling.compiler.SlingTypeResolver.MatchingComponents
+	func setBindingForFunctionCallSymbol(symbol as sling.model.SymbolExpressionNode, decl as sling.common.NodeObject, typemap as sling.model.TypeMap)
+	func doReduceDimension(original as sling.common.DataTypeNode) as sling.common.DataTypeNode
+	func reduceDimension(original as sling.common.DataTypeNode) as sling.common.DataTypeNode
+	func resolveVariableType(node as sling.model.VariableDeclarationNode) as sling.common.DataTypeNode
+	func resolvePropertyVariableType(node as sling.model.PropertyDeclarationNode) as sling.common.DataTypeNode
+	func resolveToDataType(node as sling.common.NodeObject) as sling.common.DataTypeNode
+	func getTypeMapFromExpression(xpr as sling.model.ExpressionNode) as sling.model.TypeMap
+	func getTypeMapFromDataType(dt as sling.common.DataTypeNode) as sling.model.TypeMap
+	func findInferredTemplate(fc as sling.model.FunctionCallExpressionNode, decl as sling.model.FunctionDeclarationNode, name as string) as sling.common.DataTypeNode
+	func findInferredTemplateForDataType(dt as sling.common.DataTypeNode, fcx as sling.model.FunctionCallExpressionNode, fdecl as sling.model.FunctionDeclarationNode) as sling.common.DataTypeNode
+	func substituteInferredTemplates(adt as sling.common.DataTypeNode, fcx as sling.model.FunctionCallExpressionNode, fdecl as sling.model.FunctionDeclarationNode) as sling.common.DataTypeNode
+	func resolveExpression(xpr as sling.model.ExpressionNode)
+	func resolveDataTypes(node as sling.common.NodeObject)
+	func isSameTypeObject(primary as object, other as object) as bool
+	func isSame(primary as sling.common.DataTypeNode, other as sling.common.DataTypeNode, typemap as sling.model.TypeMap) override as bool
+	func isSameTemplate(primary as sling.model.TemplateDeclarationNode, aother as sling.model.TemplateDeclarationNode, typemap as sling.model.TypeMap) as bool
+	func getPrimitiveDataTypeLikenessScore(primary as sling.common.DataTypeNode, other as sling.common.DataTypeNode) as int
+	func isBaseDataTypeOf(entity as sling.model.EntityDeclarationNode, candidate as sling.common.DataTypeNode) as bool
+	func matches(primary as sling.common.DataTypeNode, other as sling.common.DataTypeNode, typemap as sling.model.TypeMap, exact as bool = false, allowFloatDowncast as bool = false) as bool
+	func matchesCallParameters(fd as sling.model.FunctionDeclarationBaseNode, pms as vector, typemap as sling.model.TypeMap = null, exact as bool = false, allowFloatDowncast as bool = false) as bool
+	func getMatchingConstructor(entity as sling.model.EntityDeclarationNode, parameters as vector, typemap as sling.model.TypeMap) override as sling.model.ConstructorDeclarationNode
+	func isSameDeclaration(oba as sling.model.VariableDeclarationNode, obb as sling.model.VariableDeclarationNode, typemap as sling.model.TypeMap, ignoreName as bool = false) static as bool
+	func compareParameterArrays(parameters as vector, nps as vector, typemap as sling.model.TypeMap, ignoreVariableNames as bool) static as bool
+	func hasSameSignature(anode as sling.model.FunctionDeclarationNode, bnode as sling.model.FunctionDeclarationNode, typemap as sling.model.TypeMap, ignoreType as bool, ignoreParameters as bool, ignoreName as bool) static as bool
+	func doFindBaseclassDeclaration(fdecl as sling.model.FunctionDeclarationNode, ee as sling.model.EntityDeclarationNode, lookHere as bool, typemap as sling.model.TypeMap, ignoreType as bool, ignoreParameters as bool, typemapr as sling.model.TypeMap) static as sling.model.FunctionDeclarationNode
+	func tryFindBaseclassDeclaration(fdecl as sling.model.FunctionDeclarationNode, ignoreType as bool = false, ignoreParameters as bool = false, typemapr as sling.model.TypeMap = null) static as sling.model.FunctionDeclarationNode
+	func resolveBaseClassDeclaration(fdecl as sling.model.FunctionDeclarationNode, requireModifier as bool = false)
+	func findImplementedInterfaceMethod(fdecl as sling.model.FunctionDeclarationNode) override as sling.model.FunctionDeclarationNode
+	func findAllImplementedInterfaceMethods(fdecl as sling.model.FunctionDeclarationNode, force as bool = false) as vector<sling.model.FunctionDeclarationNode>
+	func resolveImplementedInterfaces(fdecl as sling.model.FunctionDeclarationNode, force as bool = false)
+	func execute(node as sling.common.NodeObject)
+	func tryExecute(ctx as jk.log.LoggingContext, node as sling.common.NodeObject)
+	func resolveBaseClassDeclarationsForMethods(ctx as jk.log.LoggingContext, root as sling.common.NodeObject)
+	func getIgnoreFailedPaths as bool #getterMethod
+	func setIgnoreFailedPaths(v as bool) as sling.compiler.SlingTypeResolver #setterMethod
+}
+class name sling.compiler.DynamicModelExpander header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func dataTypeToSymbolExpression(type as sling.common.DataTypeNode) as sling.model.ExpressionNode
+	func execute(root as sling.common.NodeObject)
+}
+class name sling.compiler.LibraryName header implements jk.lang.StringObject public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func asLibraryName(o) static as sling.compiler.LibraryName
+	func asLibraryNameVector(o) static as vector<sling.compiler.LibraryName>
+	func parse(string as string) static as sling.compiler.LibraryName
+	func toString as string
+	func getNamespace as string #getterMethod
+	func setNamespace(v as string) as sling.compiler.LibraryName #setterMethod
+	func getName as string #getterMethod
+	func setName(v as string) as sling.compiler.LibraryName #setterMethod
+	func getVersion as string #getterMethod
+	func setVersion(v as string) as sling.compiler.LibraryName #setterMethod
+}
+class name sling.compiler.PropertyDeclarationExpander header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func createMethodName(prefix as string, name as string, pp as sling.model.EntityDeclarationNode, decl as sling.model.PropertyDeclarationNode) as string
+	func execute(ctx as jk.log.LoggingContext, root as sling.common.NodeObject, resolver as sling.util.TypeResolver)
+	func getAssignmentExpressionForSymbolIfLeftValue(xpr as sling.model.SymbolExpressionNode) as sling.model.AssignmentExpressionNode
+}
+class name sling.compiler.MacroHandler header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func execute(ctx as jk.log.LoggingContext, root as sling.common.NodeObject, resolver as sling.util.TypeResolver, removeDeclarations as bool = true)
+	func getExpandMacroCalls as bool #getterMethod
+	func setExpandMacroCalls(v as bool) as sling.compiler.MacroHandler #setterMethod
+	func getDeleteMacroDeclarations as bool #getterMethod
+	func setDeleteMacroDeclarations(v as bool) as sling.compiler.MacroHandler #setterMethod
+}
+class name sling.compiler.LinkableModuleInfo header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func getModuleId as string #getterMethod
+	func setModuleId(v as string) as sling.compiler.LinkableModuleInfo #setterMethod
+	func getLinkTarget as jk.fs.File #getterMethod
+	func setLinkTarget(v as jk.fs.File) as sling.compiler.LinkableModuleInfo #setterMethod
+	func getTimestamp as long #getterMethod
+	func setTimestamp(v as long) as sling.compiler.LinkableModuleInfo #setterMethod
+	func getApifile as jk.fs.File #getterMethod
+	func setApifile(v as jk.fs.File) as sling.compiler.LinkableModuleInfo #setterMethod
+	func getDepfile as jk.fs.File #getterMethod
+	func setDepfile(v as jk.fs.File) as sling.compiler.LinkableModuleInfo #setterMethod
+	func getDependencies as vector<string> #getterMethod
+	func setDependencies(v as vector<string>) as sling.compiler.LinkableModuleInfo #setterMethod
+	func getHeader as sling.common.CodeUnitNode #getterMethod
+	func setHeader(v as sling.common.CodeUnitNode) as sling.compiler.LinkableModuleInfo #setterMethod
+}
+class name sling.compiler.WebApiExpanderForSympathy header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func createInvalidRequestAssert(xpr as sling.model.ExpressionNode) as sling.common.NodeObject
+	func createNotAuthenticatedAssert(xpr as sling.model.ExpressionNode) as sling.common.NodeObject
+	func createValidateStringStatement(varname as string) as sling.common.NodeObject
+	func processWebApiStatements(body as sling.model.BlockNode)
+	func execute(root as sling.common.NodeObject)
+	func getCtx as jk.log.LoggingContext #getterMethod
+	func setCtx(v as jk.log.LoggingContext) as sling.compiler.WebApiExpanderForSympathy #setterMethod
+}
+class name sling.compiler.WebApi2ExpanderForSympathy header public
+{
+	import jk.fs
+	import jk.log
+	import sling.common
+	import sling.model
+	import sling.util
+	import sling.op
+	import sling.model.ext
+	import sling.generator
+	import sling.parser
+	import jk.lang
+	ctor
+	func processWebApiStatements(body as sling.model.BlockNode, req as sling.model.VariableDeclarationNode, res as sling.model.VariableDeclarationNode, vars as sling.model.VariableDeclarationNode)
+	func execute(root as sling.common.NodeObject)
+	func getCtx as jk.log.LoggingContext #getterMethod
+	func setCtx(v as jk.log.LoggingContext) as sling.compiler.WebApi2ExpanderForSympathy #setterMethod
+}

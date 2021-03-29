@@ -1,0 +1,13 @@
+class name sling.tools.compiler.cli.SlingCompilerCli header public
+{
+	import jk.lang
+	import jk.log
+	import jk.console
+	import sling.tools.compiler
+	ctor
+	func printHeader
+	func usage
+	func doExecute(ctx as jk.console.ConsoleApplicationContext, args as array<string>) as int
+	func execute(args as array<string>) as int
+	func _main(args as array<string>) static as int
+}

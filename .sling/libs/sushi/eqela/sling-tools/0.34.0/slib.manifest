@@ -1,0 +1,13 @@
+{
+	"license" : "GPL3",
+	"version" : "0.34.0",
+	"title" : "Sling Tools",
+	"libraries" : [
+		"jk-core:0.31.0",
+		"jk-data:0.27.0"
+	],
+	"description" : "",
+	"copyright" : "Copyright (c) 2020 J42 Pte Ltd",
+	"name" : "sling-tools",
+	"namespace" : "eqela"
+}

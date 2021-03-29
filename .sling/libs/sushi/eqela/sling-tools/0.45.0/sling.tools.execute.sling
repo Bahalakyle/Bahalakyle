@@ -1,0 +1,17 @@
+class name sling.tools.execute.SlingExecuteTool header public
+{
+	import jk.lang
+	import jk.fs
+	import jk.log
+	import jk.sushi
+	import sling.tools.common
+	ctor
+	property ctx as jk.log.LoggingContext { hasset hasget }
+	property sources as vector<jk.fs.File> { hasset hasget }
+	property output as jk.fs.File { hasset hasget }
+	property tasks as vector<string> { hasset hasget }
+	property providers as vector<string> { hasset hasget }
+	property libraries as vector<string> { hasset hasget }
+	func escapeStringLiteral(original as string) as string
+	func execute
+}
